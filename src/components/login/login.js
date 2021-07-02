@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import API from '../../services/api'
+import './login.css';
+import {Button} from '@material-ui/core'
+import Input from '@material-ui/core/Input';
 
 export default class Login extends Component {
     constructor(props) {
@@ -27,27 +30,25 @@ export default class Login extends Component {
     handleUser = e => {
         this.setState({ username: e.target.value })
     }
+
     render() {
         return (
-            <div className="bg-gray-900">
-                <div className="login container mx-auto w-full max-w-xs items-center pt-12 h-screen">
-                    <form action="chat.html" method="GET" className="bg-white shadow-md rounded px-8 pt-8 pb-8 m-4">
-                        <label className="block text-lg font-bold mb-4 py-2 text-center bg-gray-800 rounded text-white">Healthcare Chat Login</label>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
-                                Username</label>
-                            <label className="incorrect-user text-red-500"></label>
-                            <input value={this.state.username} onChange={(e) => this.handleUser(e)}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="username" type="text" placeholder="Enter Username here..." />
+            <div className="body">
+                <div className="login_container">
+                    <img className="image" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"/>
+                        
+                        <div className="input_text">
+                            <div className="incorrect-user">
+                                <label className="incorrect-user"></label>
+                            </div>
+                                <Input className="input_box" value={this.state.username} onChange={(e) => this.handleUser(e)} placeholder="Username"/>
                         </div>
-                        <button id="login" onClick={() => this.login()}
-                            className="btn-primary rounded-full text-white font-bold py-2 px-4 mx-16 rounded focus:outline-none focus:shadow-outline place-self-center"
+                        
+                        <Button id="login" onClick={() => this.login()}
                             type="button">
-                            Login</button>
-                    </form>
-                    <p className="text-center text-gray-500 text-xs">
-                        &copy;2020 QED42. All rights reserved.</p>
+                        Login</Button>
+                        
+                    
                 </div>
             </div>
         )
