@@ -7,10 +7,13 @@
 }
 
 .login_container{
+    margin:0;
     padding:80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     text-align:center;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .image {
@@ -20,7 +23,7 @@
 }
 
 .login_container > Button {
-    margin-top: 50px;
+    margin-top: 30px;
     text-transform: inherit !important;
     background-color: #0a8d48 !important;
     color:white;
@@ -29,3 +32,9 @@
 .incorrect-user {
     color: red;
 } 
+
+.login_container > h1 {
+    font-size:20px;
+    padding-bottom:15px ;
+    font-weight: bold;
+}
