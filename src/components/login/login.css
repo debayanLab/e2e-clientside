@@ -26,6 +26,6 @@
     color:white;
 }
 
-.login_container > Input {
-    text-align: center;
+.incorrect-user {
+    color: red;
 } 
