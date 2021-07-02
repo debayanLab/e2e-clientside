@@ -41,7 +41,7 @@ export default class Login extends Component {
                             <div className="incorrect-user">
                                 <label className="incorrect-user"></label>
                             </div>
-                                <Input className="input_box" value={this.state.username} onChange={(e) => this.handleUser(e)} placeholder="Username"/>
+                                <Input value={this.state.username} onChange={(e) => this.handleUser(e)} placeholder="Username"/>
                         </div>
                         
                         <Button id="login" onClick={() => this.login()}
