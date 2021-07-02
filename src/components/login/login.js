@@ -23,7 +23,7 @@ export default class Login extends Component {
             this.onLoginComplete(loginResult.data)
         } catch (error) {
             let element = document.querySelector(".incorrect-user")
-            element.innerText = "Some Error Occurred."
+            element.innerText = "Invalid Username"
         }
     }
 
