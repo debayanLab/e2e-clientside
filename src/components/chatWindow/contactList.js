@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import './contactList.css';
+import DonutLargeIcon from '@material-ui/icons/DonutLarge';
+import ChatIcon from '@material-ui/icons/Chat'; 
+import MoreVertIcon from '@material-ui/icons/MoreVert'; 
+import {SearchOutlined} from '@material-ui/icons';
 
 export default class ContactList extends Component {
     constructor(props) {
@@ -38,11 +43,13 @@ export default class ContactList extends Component {
     getContacts() {
 
         const contactDetails = this.state.users.map(user =>
-            <div className="user flex mt-2 p-2 border-b " id={user._id} key={user._id} onClick={() => this.setSelectedUser(user)}>
+            <div className="contactlist-body">
+            <div className="user flex mt-2 p-2 border-b" id={user._id} key={user._id} onClick={() => this.setSelectedUser(user)}>
                 <div className="w-1/4 rounded-full relative h-12 text-center">
                     <img className="profile-picture absolute h-full object-cover self-center" src={"/images/" + user.img} alt="dp" />
                 </div>
                 {this.getLastMessageDetails(user)}
+            </div>
             </div>
         )
         return (contactDetails)
@@ -50,16 +57,23 @@ export default class ContactList extends Component {
 
     render() {
         return (
-            <div className="contact-box w-2/5 text-white rounded-l">
-                <div className="flex mt-2">
-                    <i className="las la-bars p-2 ml-2 text-xl"></i>
-                    <i className="search-bar las la-search p-2 text-xl"></i>
-                    <input className="search-bar px-2 bg-green-900 text-white w-full focus:outline-none focus:ring rounded" placeholder="Search here.."></input>
-                    <i className="las la-ellipsis-v p-2 text-xl"></i>
+            <div className="contactList_body">
+                <div className="contactList_header">
+                    <div className="contactList_header_right">
+                        <DonutLargeIcon/>
+                        <ChatIcon/>
+                        <MoreVertIcon/>
+                    </div>
                 </div>
-                
 
-                <div className="contact-list grid-cols-1 p-2">
+                <div className="search_bar">
+                    <div className="search_bar_container">
+                        <SearchOutlined/>
+                        <input placeholder="Search or start new chat" type="text"/>
+                    </div>
+                </div>
+
+                <div className="contracts clearfix overflow-auto">
                     {this.getContacts()}
                 </div>
             </div>

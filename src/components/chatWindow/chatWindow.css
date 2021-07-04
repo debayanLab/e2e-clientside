@@ -1,0 +1,16 @@
+.body{
+    display: grid;
+    place-items:center;
+    height:100vh;
+    background-color: #dadbd3;
+}
+
+.body_container {
+    display: flex;
+    background-color: #ededed;
+    margin-top: 0px;
+    height: 90vh;
+    width: 90vw;
+    box-shadow: -1px 4px 20px -6px rgb(0, 0, 0,0.75);
+}
+

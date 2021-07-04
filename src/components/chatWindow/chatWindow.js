@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ContactList from './contactList'
 import MessageBox from './messageBox'
 import API from '../../services/api'
+import './chatWindow.css';
 
 
 export default class ChatWindow extends Component {
@@ -120,7 +121,8 @@ export default class ChatWindow extends Component {
 
     render() {
         return (
-            <div className="container flex mx-auto m-2 rounded h-screen bg-white border border-blue-800 bg-gray-100">
+            <div className="body">
+                <div className="body_container">
                 {(this.state.users.length > 0) && <ContactList
                     users={this.state.users}
                     selectedUser={this.getSelectedUser}
@@ -132,6 +134,7 @@ export default class ChatWindow extends Component {
                     setNewMsgObj={this.getNewMsgObj}
                     messages={(this.state.chats[this.getSelectedUserChatId()]) && this.state.chats[this.getSelectedUserChatId()].messages}
                 />}
+                </div>
             </div>
         )
     }

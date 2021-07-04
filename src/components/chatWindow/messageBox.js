@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-
+import './messageBox.css';
+import MoreVertIcon from '@material-ui/icons/MoreVert'; 
+import {SearchOutlined} from '@material-ui/icons';
 export default class MessageBox extends Component {
     constructor(props) {
         super(props)
@@ -52,10 +54,29 @@ export default class MessageBox extends Component {
 
     render() {
         return (
+            // <div className="chat">
+            //     <div className="chat_header">
+            //             <div className="w-12 rounded-full relative h-12 text-center mx-2">
+            //                  <img className="profile-picture absolute h-full object-cover self-center p-1" src={"/images/" + this.props.selectedUser.img} alt="dp" />
+            //             </div>
+            //         <div className="chat_header_info"> 
+            //             <h2>{this.props.selectedUser.name}</h2>
+            //         </div>
+
+            //         <div className="chat_header_right">
+            //             <SearchOutlined/>
+            //             <MoreVertIcon/>
+            //         </div>
+            //     </div>
+            //          <div className="message-area clearfix overflow-auto">
+            //              {this.addMessagesToChat()}
+            //          </div>
+            // </div>
+
             <div className="message-box w-3/5">
                 <div className=" w-full relative h-full grid grid-flow-rows">
                     {/* Contact Options Bar */}
-                    <div className="user-bar text-white flex w-full py-4 absolute inset-x-0 top-0 shadow-lg">
+                    <div className="user-bar text-white flex w-full py-3 absolute inset-x-0">
                         <div className="w-12 rounded-full relative h-12 text-center mx-2">
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
                         </div>
@@ -71,7 +92,7 @@ export default class MessageBox extends Component {
                         {this.addMessagesToChat()}
                     </div>
                     {/* Input Box and other Options */}
-                    <div className="input-box flex p-4 bottom-0 absolute inset-x-0 bg-white shadow-inner">
+                    <div className="input-box flex p-2 bottom-0 absolute inset-x-0 bg-white shadow-inner">
                         <input className="msg-input p-2 w-4/5 float-left text-sm focus:outline-none focus:ring" placeholder="Write Message.."
                             value={this.state.msgText} onChange={(e) => this.handleMessageText(e)}>
                         </input>
