@@ -38,3 +38,7 @@
     padding-bottom:15px ;
     font-weight: bold;
 }
+
+Input::placeholder {
+    text-align: center;
+}
