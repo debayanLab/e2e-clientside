@@ -5,17 +5,13 @@
 3) Go to the repo and type: npm start
 
 For Icons:
-// with npm
-npm install @material-ui/core
+1) npm install @material-ui/core
 
-// with yarn
-yarn add @material-ui/core
+2) yarn add @material-ui/core
 
-// with npm
-npm install @material-ui/icons
+3) npm install @material-ui/icons
 
-// with yarn
-yarn add @material-ui/icons
+4) yarn add @material-ui/icons
 
 (Note: Readme needs update; only temporary)
 
