@@ -1,16 +1,33 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import moment from 'moment'
 import './messageBox.css';
 import MoreVertIcon from '@material-ui/icons/MoreVert'; 
-import {SearchOutlined} from '@material-ui/icons';
+import {IconButton} from '@material-ui/core';
+import ForwardIcon from '@material-ui/icons/Forward';
+
 export default class MessageBox extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
             msgText: "",
+            showContacts:false,
         }
         this.sendMessageToServer = this.sendMessageToServer.bind(this)
-    }
+
+        this.showContacts = this.showContacts.bind(this);
+
+        }
+        showContacts(event) {
+            event.preventDefault();
+        
+            this.setState({
+                showContacts: true,
+            });
+        }
+    
+
+    
 
     handleMessageText(e) {
         this.setState({ msgText: e.target.value })
@@ -33,8 +50,25 @@ export default class MessageBox extends Component {
             const msgContent = this.props.messages.map(function (message) {
                 if (message.receiverid === this.props.selectedUser._id)
                     return (<div key={message.messageId} className="outgoing w-3/4 justify-end float-right flex my-2">
+                        <IconButton>
+                            <ForwardIcon onClick={this.showContacts}/>
+                        </IconButton>
+                        {
+                            this.state.showContacts
+                            ? (
+                            <div className="contacts">
+                                <button> User1 </button>
+                                <button> User2 </button>
+                                <button> User3 </button>
+                            </div>
+                            )
+                            : (
+                            null
+                            )
+                        }
                         <div className=" w-max bg-green-200 text-black shadow-lg clear-both p-2 rounded-md">
-                            {message.message}</div>
+                        {message.message}</div>
+                            
                         <div className="w-16 rounded-full relative h-16 mx-2 px-2">
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.loggedInUserDP} alt="dp" />
                         </div>
@@ -46,6 +80,22 @@ export default class MessageBox extends Component {
                         </div>
                         <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
                             {message.message}</div>
+                        <IconButton>
+                            <ForwardIcon onClick={this.showContacts}/>
+                        </IconButton>
+                        {
+                            this.state.showContacts
+                            ? (
+                            <div className="contacts">
+                                <button> User1 </button>
+                                <button> User2 </button>
+                                <button> User3 </button>
+                            </div>
+                            )
+                            : (
+                            null
+                            )
+                        }
                     </div>)
             }.bind(this))
             return (msgContent)
