@@ -17,7 +17,7 @@ export default class ChatWindow extends Component {
         }
         this.getSelectedUser = this.getSelectedUser.bind(this)
         this.getNewMsgObj = this.getNewMsgObj.bind(this)
-    }
+    } 
 
     async componentDidMount() {
 

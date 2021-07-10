@@ -57,85 +57,61 @@ export default class MessageBox extends Component {
         this.setState({ msgText: "" })
     }
 
+    addForward () {
+        return (
+            <div>
+                <Modal show={this.state.show} handleClose={this.hideModal}>
+                    <br></br>
+                    <button> User1 </button><br></br>
+                    <button> User2 </button><br></br>
+                    <button> User3 </button><br></br>
+                    <br></br>
+                </Modal>
+                <IconButton>
+                    <ForwardIcon onClick={this.showModal}/>
+                </IconButton>
+            </div>
+            
+        )
+    }
+
     // Method to Display Messages
     addMessagesToChat() {
         if (this.props.messages) {
             const msgContent = this.props.messages.map(function (message) {
                 //  Display message you sent
-                if (message.receiverid === this.props.selectedUser._id)
-                    return (<div key={message.messageId} className="outgoing w-3/4 justify-end float-right flex my-2">
-
-                        <Modal show={this.state.show} handleClose={this.hideModal}>
-                            <br></br>
-                            <button> User1 </button><br></br>
-                            <button> User2 </button><br></br>
-                            <button> User3 </button><br></br>
-                            <br></br>
-                        </Modal>
-                        <IconButton>
-                            <ForwardIcon onClick={this.showModal}/>
-                        </IconButton>
-
-                        <div className=" w-max bg-green-200 text-black shadow-lg clear-both p-2 rounded-md">
-                        {message.message}</div>
+                if (message.receiverid === this.props.selectedUser._id) {
+                    return (
+                        <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
+    
+                            <div className="forwardButton">
+                                {this.addForward()}
+                            </div>
+    
+                            <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
+                                {`${message.message_type==="forwarded"? "Forwarded:":""}`} {message.message}
+                            </div>
                             
-                        <div className="w-16 rounded-full relative h-16 mx-2 px-2">
-                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.loggedInUserDP} alt="dp" />
                         </div>
-                    </div>)
-                else{
-                    if(message.message_type === "forwarded"){
-                        <div key={message.messageId} className="incoming w-3/4 flex my-2">
-                        <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
-                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
-                        </div>
-                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">    
-                            [{message.message_type}]: {message.message}</div>
-                        <IconButton>
-                            <ForwardIcon onClick={this.showContacts}/>
-                        </IconButton>
-                        {
-                            this.state.showContacts
-                            ? (
-                            <div className="contacts">
-                                <button> User1 </button>
-                                <button> User2 </button>
-                                <button> User3 </button>
+                    );
+                }
+                else {
+                    return (
+                        <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
+   
+                            <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
+                                {`${message.message_type==="forwarded"? "Forwarded:":""}`} {message.message}
                             </div>
-                            )
-                            : (
-                            null
-                            )
-                        }
-                    </div>
-                    }
-                    // else if(message.message_type === "something else"){} // For some other case
-                    else{
-                        return(<div key={message.messageId} className="incoming w-3/4 flex my-2">
-                        <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
-                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
-                        </div>
-                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
-                            [{message.message_type}]: {message.message}</div>
-                            <IconButton>
-                            <ForwardIcon onClick={this.showContacts}/>
-                        </IconButton>
-                        {
-                            this.state.showContacts
-                            ? (
-                            <div className="contacts">
-                                <button> User1 </button>
-                                <button> User2 </button>
-                                <button> User3 </button>
+                            
+                            <div className="forwardButton">
+                                {this.addForward()}
                             </div>
-                            )
-                            : (
-                            null
-                            )
-                        }
-                    </div>);
-                    }
-                }}.bind(this))
+
+                        </div>
+                    );
+                }
+                
+            }.bind(this))
             return (msgContent)
         }
     }
