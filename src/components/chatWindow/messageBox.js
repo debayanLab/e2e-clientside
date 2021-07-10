@@ -20,7 +20,8 @@ export default class MessageBox extends Component {
         if (this.state.msgText) { //to not send empty message
             let msgObj = {
                 message: this.state.msgText,
-                date: moment().format('LT')
+                date: moment().format('LT'),
+                message_type: "new-message"
             }
             this.props.setNewMsgObj(msgObj)
         }
@@ -31,6 +32,7 @@ export default class MessageBox extends Component {
     addMessagesToChat() {
         if (this.props.messages) {
             const msgContent = this.props.messages.map(function (message) {
+                //  Display message you sent
                 if (message.receiverid === this.props.selectedUser._id)
                     return (<div key={message.messageId} className="outgoing w-3/4 justify-end float-right flex my-2">
                         <div className=" w-max bg-green-200 text-black shadow-lg clear-both p-2 rounded-md">
@@ -39,15 +41,27 @@ export default class MessageBox extends Component {
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.loggedInUserDP} alt="dp" />
                         </div>
                     </div>)
-                else
-                    return (<div key={message.messageId} className="incoming w-3/4 flex my-2">
+                else{
+                    if(message.message_type === "forwarded"){
+                        <div key={message.messageId} className="incoming w-3/4 flex my-2">
                         <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
                         </div>
                         <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
-                            {message.message}</div>
-                    </div>)
-            }.bind(this))
+                            [{message.message_type}]: {message.message}</div>
+                    </div>
+                    }
+                    // else if(message.message_type === "something else"){} // For some other case
+                    else{
+                        return(<div key={message.messageId} className="incoming w-3/4 flex my-2">
+                        <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
+                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
+                        </div>
+                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
+                            [{message.message_type}]: {message.message}</div>
+                    </div>);
+                    }
+                }}.bind(this))
             return (msgContent)
         }
     }
