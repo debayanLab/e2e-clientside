@@ -26,3 +26,12 @@
 .message-area{
     margin-top: 0.1;
 }
+
+.contacts{
+    display: grid;
+    justify-content: space-between;
+    padding:20px;
+    background-color:white;
+    border-radius: 15px;
+    box-shadow: -1px 4px 20px -6px rgb(0, 0, 0,0.75);
+}
