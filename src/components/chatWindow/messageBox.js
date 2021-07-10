@@ -1,9 +1,11 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import moment from 'moment'
 import './messageBox.css';
 import MoreVertIcon from '@material-ui/icons/MoreVert'; 
 import {IconButton} from '@material-ui/core';
 import ForwardIcon from '@material-ui/icons/Forward';
+
+import Modal from '../modal/modal.js'
 
 export default class MessageBox extends Component {
 
@@ -12,10 +14,14 @@ export default class MessageBox extends Component {
         this.state = {
             msgText: "",
             showContacts:false,
+            show:false,
         }
         this.sendMessageToServer = this.sendMessageToServer.bind(this)
 
         this.showContacts = this.showContacts.bind(this);
+        
+        this.showModal = this.showModal.bind(this);
+         this.hideModal = this.hideModal.bind(this);
 
         }
         showContacts(event) {
@@ -26,7 +32,13 @@ export default class MessageBox extends Component {
             });
         }
     
-
+    showModal = () => {
+        this.setState({ show: true });
+    };
+    
+    hideModal = () => {
+        this.setState({ show: false });
+    };
     
 
     handleMessageText(e) {
@@ -52,22 +64,18 @@ export default class MessageBox extends Component {
                 //  Display message you sent
                 if (message.receiverid === this.props.selectedUser._id)
                     return (<div key={message.messageId} className="outgoing w-3/4 justify-end float-right flex my-2">
+
+                        <Modal show={this.state.show} handleClose={this.hideModal}>
+                            <br></br>
+                            <button> User1 </button><br></br>
+                            <button> User2 </button><br></br>
+                            <button> User3 </button><br></br>
+                            <br></br>
+                        </Modal>
                         <IconButton>
-                            <ForwardIcon onClick={this.showContacts}/>
+                            <ForwardIcon onClick={this.showModal}/>
                         </IconButton>
-                        {
-                            this.state.showContacts
-                            ? (
-                            <div className="contacts">
-                                <button> User1 </button>
-                                <button> User2 </button>
-                                <button> User3 </button>
-                            </div>
-                            )
-                            : (
-                            null
-                            )
-                        }
+
                         <div className=" w-max bg-green-200 text-black shadow-lg clear-both p-2 rounded-md">
                         {message.message}</div>
                             
