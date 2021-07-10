@@ -81,24 +81,8 @@ export default class MessageBox extends Component {
                         <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
                             <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
                         </div>
-                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
-<<<<<<< HEAD
+                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">    
                             [{message.message_type}]: {message.message}</div>
-                    </div>
-                    }
-                    // else if(message.message_type === "something else"){} // For some other case
-                    else{
-                        return(<div key={message.messageId} className="incoming w-3/4 flex my-2">
-                        <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
-                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
-                        </div>
-                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
-                            [{message.message_type}]: {message.message}</div>
-                    </div>);
-                    }
-                }}.bind(this))
-=======
-                            {message.message}</div>
                         <IconButton>
                             <ForwardIcon onClick={this.showContacts}/>
                         </IconButton>
@@ -115,9 +99,35 @@ export default class MessageBox extends Component {
                             null
                             )
                         }
-                    </div>)
-            }.bind(this))
->>>>>>> f4ea5ea7a5d61e3caa00a9d751c790b74de946b4
+                    </div>
+                    }
+                    // else if(message.message_type === "something else"){} // For some other case
+                    else{
+                        return(<div key={message.messageId} className="incoming w-3/4 flex my-2">
+                        <div className="w-16 bg-white-200 rounded-full relative h-16 mx-2 px-2">
+                            <img className="profile-picture absolute h-full object-cover self-center p-2" src={"/images/" + this.props.selectedUser.img} alt="dp" />
+                        </div>
+                        <div className=" w-max bg-white text-black shadow-lg clear-both p-2 rounded-md">
+                            [{message.message_type}]: {message.message}</div>
+                            <IconButton>
+                            <ForwardIcon onClick={this.showContacts}/>
+                        </IconButton>
+                        {
+                            this.state.showContacts
+                            ? (
+                            <div className="contacts">
+                                <button> User1 </button>
+                                <button> User2 </button>
+                                <button> User3 </button>
+                            </div>
+                            )
+                            : (
+                            null
+                            )
+                        }
+                    </div>);
+                    }
+                }}.bind(this))
             return (msgContent)
         }
     }
