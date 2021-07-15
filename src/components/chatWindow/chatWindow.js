@@ -93,8 +93,29 @@ export default class ChatWindow extends Component {
 
     // Method to Send New Message using Web Socket when User hits send button from Message Box component
     async getNewMsgObj(newMsgObj) {
+
+        let msgToSend = {}
+        
+        // if I am forwarding a message
+        if (newMsgObj.message_type === "forwarded") 
+            msgToSend = { 
+                chatId: selectedUserChatId, 
+                senderid: newMsgObj.origintor,
+                receiverid: this.state.messageToUser._id, 
+                ...newMsgObj 
+            }    
+        // if I am sending a message
+        else 
+            msgToSend = { 
+                chatId: selectedUserChatId, 
+                senderid: this.props.loggedInUserObj._id, 
+               
+                receiverid: this.state.messageToUser._id, 
+                ...newMsgObj 
+            }   
+
         let selectedUserChatId = this.getSelectedUserChatId()
-        let msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: this.state.messageToUser._id, ...newMsgObj }
+       
         // Send Message for Encryption to Signal Server, then send the Encrypted Message to Push server
         try {
             let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
@@ -133,6 +154,9 @@ export default class ChatWindow extends Component {
                     loggedInUserDP={this.props.loggedInUserObj.img}
                     setNewMsgObj={this.getNewMsgObj}
                     messages={(this.state.chats[this.getSelectedUserChatId()]) && this.state.chats[this.getSelectedUserChatId()].messages}
+                    
+                    loggedInUserObj={this.props.loggedInUserObj}
+                    users={this.state.users}
                 />}
                 </div>
             </div>

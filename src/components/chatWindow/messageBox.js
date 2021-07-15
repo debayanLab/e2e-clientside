@@ -57,14 +57,33 @@ export default class MessageBox extends Component {
         this.setState({ msgText: "" })
     }
 
-    addForward () {
+    forward (message, recipient) {
+        console.log ("[", message.senderid, "->", recipient, "] : ", message.message)
+
+        let msgObj = {
+            message: message.message,
+            date: moment().format('LT'),
+            message_type: "forwarded", 
+            originalSender: message.senderid,
+            recipient: recipient,
+        }
+        this.props.setNewMsgObj(msgObj)
+
+    }
+
+    addForward (message) {
         return (
             <div>
                 <Modal show={this.state.show} handleClose={this.hideModal}>
                     <br></br>
-                    <button> User1 </button><br></br>
-                    <button> User2 </button><br></br>
-                    <button> User3 </button><br></br>
+                    <ul>
+                        <br></br>
+                        {this.props.users.map((user) => (
+                            <li><button onClick={() => (this.forward(message, user._id))}>
+                                {user.name}
+                            </button></li>
+                        ))}
+                    </ul>
                     <br></br>
                 </Modal>
                 <IconButton>
@@ -85,7 +104,7 @@ export default class MessageBox extends Component {
                         <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
     
                             <div className="forwardButton">
-                                {this.addForward()}
+                                {this.addForward(message)}
                             </div>
     
                             <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
@@ -104,7 +123,7 @@ export default class MessageBox extends Component {
                             </div>
                             
                             <div className="forwardButton">
-                                {this.addForward()}
+                                {this.addForward(message)}
                             </div>
 
                         </div>
