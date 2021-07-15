@@ -64,7 +64,7 @@ export default class MessageBox extends Component {
             message: message.message,
             date: moment().format('LT'),
             message_type: "forwarded", 
-            originalSender: message.senderid,
+            originator: message.senderid,
             recipient: recipient,
         }
         this.props.setNewMsgObj(msgObj)

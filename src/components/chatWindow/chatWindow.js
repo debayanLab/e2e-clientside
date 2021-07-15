@@ -91,31 +91,26 @@ export default class ChatWindow extends Component {
         this.setState({ messageToUser: selectedUser })
     }
 
+
     // Method to Send New Message using Web Socket when User hits send button from Message Box component
     async getNewMsgObj(newMsgObj) {
 
-        let msgToSend = {}
-        
-        // if I am forwarding a message
-        if (newMsgObj.message_type === "forwarded") 
-            msgToSend = { 
-                chatId: selectedUserChatId, 
-                senderid: newMsgObj.origintor,
-                receiverid: this.state.messageToUser._id, 
-                ...newMsgObj 
-            }    
-        // if I am sending a message
-        else 
-            msgToSend = { 
-                chatId: selectedUserChatId, 
-                senderid: this.props.loggedInUserObj._id, 
-               
-                receiverid: this.state.messageToUser._id, 
-                ...newMsgObj 
-            }   
+        console.log ("my user ID: ", this.props.loggedInUserObj._id)
 
-        let selectedUserChatId = this.getSelectedUserChatId()
-       
+        let msgToSend = {}
+
+
+        if (newMsgObj.message_type === "forwarded") {
+            let selectedUserChatId = this.getSelectedUserChatId(newMsgObj.recipient)
+            console.log ("[FORWARD] Recipient ID: ", selectedUserChatId)
+            msgToSend = { chatId: selectedUserChatId, senderid: newMsgObj.originator, receiverid: newMsgObj.recipient , ...newMsgObj }
+        }
+        else {
+            let selectedUserChatId = this.getSelectedUserChatId()
+            console.log ("Recipient ID: ", selectedUserChatId)
+            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: this.state.messageToUser._id, ...newMsgObj }
+        }
+        
         // Send Message for Encryption to Signal Server, then send the Encrypted Message to Push server
         try {
             let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
@@ -128,11 +123,19 @@ export default class ChatWindow extends Component {
     }
 
     // Method to return the chatID of the Currently Selected User
-    getSelectedUserChatId() {
+    getSelectedUserChatId(userID) {
+
+        let user = this.state.messageToUser._id
+
+        if (userID) {
+            user = userID
+            console.log ("setting new user: ", user)
+        }
+        
         // Because of the state selectedUserChatId problem, we are selecting the chatId everytime a new message is being sent
         let selectedUserChatId = undefined
         for (let chat of Object.values(this.state.chats)) {
-            if (chat.members.includes(this.state.messageToUser._id)) {
+            if (chat.members.includes(user)) {
                 selectedUserChatId = chat.chatId
                 break
             }
