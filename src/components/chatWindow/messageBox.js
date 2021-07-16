@@ -71,6 +71,7 @@ export default class MessageBox extends Component {
 
     }
 
+    // adds the forward icon 
     addForward (message, currentUser) {
         return (
             <div>
@@ -86,9 +87,7 @@ export default class MessageBox extends Component {
                     </ul>
                     <br></br>
                 </Modal>
-                <IconButton>
-                    <ForwardIcon onClick={this.showModal}/>
-                </IconButton>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25" onClick={this.showModal}><path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z"></path></svg>
             </div>
             
         )
