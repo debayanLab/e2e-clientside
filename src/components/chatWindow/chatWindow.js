@@ -101,9 +101,11 @@ export default class ChatWindow extends Component {
 
 
         if (newMsgObj.message_type === "forwarded") {
-            let selectedUserChatId = this.getSelectedUserChatId(newMsgObj.recipient)
+            // Change state so that the recipient is the one we forward to
+            this.state.messageToUser._id = newMsgObj.recipient
+            let selectedUserChatId = this.getSelectedUserChatId()
             console.log ("[FORWARD] Recipient ID: ", selectedUserChatId)
-            msgToSend = { chatId: selectedUserChatId, senderid: newMsgObj.originator, receiverid: newMsgObj.recipient , ...newMsgObj }
+            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: newMsgObj.recipient, originator: newMsgObj.originator, ...newMsgObj }
         }
         else {
             let selectedUserChatId = this.getSelectedUserChatId()
@@ -123,14 +125,11 @@ export default class ChatWindow extends Component {
     }
 
     // Method to return the chatID of the Currently Selected User
-    getSelectedUserChatId(userID) {
+    getSelectedUserChatId() {
 
         let user = this.state.messageToUser._id
 
-        if (userID) {
-            user = userID
-            console.log ("setting new user: ", user)
-        }
+        console.log ("setting new user: ", user)
         
         // Because of the state selectedUserChatId problem, we are selecting the chatId everytime a new message is being sent
         let selectedUserChatId = undefined

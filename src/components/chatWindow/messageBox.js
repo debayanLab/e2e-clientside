@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import './messageBox.css';
-import MoreVertIcon from '@material-ui/icons/MoreVert'; 
+// import MoreVertIcon from '@material-ui/icons/MoreVert'; 
 import {IconButton} from '@material-ui/core';
 import ForwardIcon from '@material-ui/icons/Forward';
 
@@ -50,7 +50,8 @@ export default class MessageBox extends Component {
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),
-                message_type: "new-message"
+                message_type: "new-message",
+                originator: this.props.selectedUser._id
             }
             this.props.setNewMsgObj(msgObj)
         }
@@ -59,19 +60,18 @@ export default class MessageBox extends Component {
 
     forward (message, recipient) {
         console.log ("[", message.senderid, "->", recipient, "] : ", message.message)
-
         let msgObj = {
             message: message.message,
             date: moment().format('LT'),
             message_type: "forwarded", 
-            originator: message.senderid,
-            recipient: recipient,
+            originator: message.originator,
+            recipient: recipient
         }
         this.props.setNewMsgObj(msgObj)
 
     }
 
-    addForward (message) {
+    addForward (message, currentUser) {
         return (
             <div>
                 <Modal show={this.state.show} handleClose={this.hideModal}>
@@ -104,7 +104,7 @@ export default class MessageBox extends Component {
                         <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
     
                             <div className="forwardButton">
-                                {this.addForward(message)}
+                                {this.addForward(message, this.props.selectedUser._id)}
                             </div>
     
                             <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
@@ -123,7 +123,7 @@ export default class MessageBox extends Component {
                             </div>
                             
                             <div className="forwardButton">
-                                {this.addForward(message)}
+                                {this.addForward(message, this.props.selectedUser._id)}
                             </div>
 
                         </div>

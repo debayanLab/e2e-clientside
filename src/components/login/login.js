@@ -38,7 +38,7 @@ export default class Login extends Component {
                     <h1>
                         Whatsapp
                     </h1>
-                    <img className="image" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"/>
+                    <img className="image" alt="WhatsApp" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"/>
                         
                         <div className="input_text">
                             <div className="incorrect-user">
