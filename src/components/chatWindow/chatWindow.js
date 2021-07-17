@@ -20,6 +20,8 @@ export default class ChatWindow extends Component {
     } 
 
     async componentDidMount() {
+        // To change web page name to the logged in user
+        document.title = this.props.loggedInUserObj.name
 
         // API call to fetch all contacts
         try {
