@@ -7,14 +7,58 @@
   background: rgba(0, 0, 0, 0.6);
 }
 
+.header {
+  background-color: #009688;
+  padding: 11px;
+}
+
+.header h3 {
+  margin-top: 0;
+  margin-left: 38px;
+  color: white;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
 .modal-main {
   position: fixed;
   background: white;
-  width: 80%;
-  height: auto;
+  width: 23%;
+  height: 70%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 2px;
+}
+
+.modal-content {
+  padding: 20px;
+  padding-bottom: 0px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #009688;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-content li {
+  margin: 2px;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  left: 18px;
+  transition: all 200ms;
+  font-size: 25px;
+  text-decoration: none;
+  color: rgb(243, 243, 243);
+}
+.close:hover {
+  color: #06d85f;
 }
 
 .display-block {

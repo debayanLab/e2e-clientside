@@ -68,7 +68,7 @@ export default class MessageBox extends Component {
             recipient: recipient
         }
         this.props.setNewMsgObj(msgObj)
-
+        this.hideModal();
     }
 
     // adds the forward icon 
@@ -76,9 +76,7 @@ export default class MessageBox extends Component {
         return (
             <div>
                 <Modal show={this.state.show} handleClose={this.hideModal}>
-                    <br></br>
                     <ul>
-                        <br></br>
                         {this.props.users.map((user) => (
                             <li><button onClick={() => (this.forward(message, user._id))}>
                                 {user.name}
