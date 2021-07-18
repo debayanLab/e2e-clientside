@@ -76,9 +76,9 @@ export default class MessageBox extends Component {
         return (
             <div>
                 <Modal show={this.state.show} handleClose={this.hideModal}>
-                    <ul>
+                    <ul className={"modalContacts"}>
                         {this.props.users.map((user) => (
-                            <li><button onClick={() => (this.forward(message, user._id))}>
+                            <li className={"modalContact"}><button onClick={() => (this.forward(message, user._id))}>
                                 {user.name}
                             </button></li>
                         ))}

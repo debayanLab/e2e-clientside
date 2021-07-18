@@ -11,7 +11,7 @@ const Modal = ({ handleClose, show, children }) => {
           <h3>Forward message to</h3>
         </div>  
         <div className="modal-content">
-          <h2>ALL CONTACTS</h2>
+          <h2 className={"addContactsHeader"}>ALL CONTACTS</h2>
           {children}
         </div>
       </section>
