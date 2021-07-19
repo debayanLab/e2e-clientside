@@ -72,9 +72,10 @@ export default class MessageBox extends Component {
     }
 
     // adds the forward icon 
-    addForward (message, currentUser) {
+    addForward (message) {
         return (
             <div>
+                <p>{message.message}</p>
                 <Modal show={this.state.show} handleClose={this.hideModal}>
                     <ul>
                         {this.props.users.map((user) => (
@@ -101,7 +102,7 @@ export default class MessageBox extends Component {
                         <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
     
                             <div className="forwardButton">
-                                {this.addForward(message, this.props.selectedUser._id)}
+                                {this.addForward(message)}
                             </div>
     
                             <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
@@ -120,7 +121,7 @@ export default class MessageBox extends Component {
                             </div>
                             
                             <div className="forwardButton">
-                                {this.addForward(message, this.props.selectedUser._id)}
+                                {this.addForward(message)}
                             </div>
 
                         </div>
