@@ -128,7 +128,7 @@ SignalProtocolStore.prototype = {
   loadSessionCipher(identifier) {
     var cipher = this.get('cipher' + identifier);
 
-    if (cipher == undefined) {
+    if (cipher === undefined) {
       return null;
     } else {
       return cipher;

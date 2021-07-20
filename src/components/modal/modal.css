@@ -30,8 +30,11 @@
   border-radius: 2px;
 }
 
-.modal-content {
+.addContactsHeader{
   padding: 20px;
+}
+
+.modal-content {
   padding-bottom: 0px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -105,13 +105,13 @@ export default class ChatWindow extends Component {
         if (newMsgObj.message_type === "forwarded") {
             // Change state so that the recipient is the one we forward to
             let selectedUserChatId = this.getSelectedUserChatId(newMsgObj.recipient)
-            console.log ("[FORWARD] Recipient ID: ", selectedUserChatId)
-            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: newMsgObj.recipient, originator: newMsgObj.originator, ...newMsgObj }
+            console.log ("[FORWARD] Recipient Chat ID: ", selectedUserChatId)
+            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: newMsgObj.recipient, ...newMsgObj }
         }
         else {
             let selectedUserChatId = this.getSelectedUserChatId()
             console.log ("Recipient ID: ", this.state.messageToUser._id)
-            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, receiverid: this.state.messageToUser._id, ...newMsgObj }
+            msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: this.state.messageToUser._id, ...newMsgObj }
         }
         
         // Send Message for Encryption to Signal Server, then send the Encrypted Message to Push server
@@ -151,6 +151,7 @@ export default class ChatWindow extends Component {
                 <div className="body_container">
                 {(this.state.users.length > 0) && <ContactList
                     users={this.state.users}
+                    loggedInUser={this.props.loggedInUserObj}
                     selectedUser={this.getSelectedUser}
                     chats={this.state.chats}
                 />}

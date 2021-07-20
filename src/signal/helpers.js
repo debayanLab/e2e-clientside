@@ -5,7 +5,7 @@
 const libsignal = window.libsignal
 
 const util = (function () {
-    'use strict';
+    
 
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 
@@ -21,7 +21,7 @@ const util = (function () {
                 return undefined;
             }
             if (thing === Object(thing)) {
-                if (thing.__proto__ == StaticArrayBufferProto) {
+                if (thing.__proto__ === StaticArrayBufferProto) {
                     return thing;
                 }
             }
@@ -32,7 +32,7 @@ const util = (function () {
             } else {
                 throw new Error("Tried to convert a non-string of type " + typeof thing + " to an array buffer");
             }
-            return new dcodeIO.ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
+            return new dcodeIO.ByteBuffer.wrap(str, 'binary').toArrayBuffer();
         },
         isEqual: function (a, b) {
             // TODO: Special-case arraybuffers, etc

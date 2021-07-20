@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import './messageBox.css';
 // import MoreVertIcon from '@material-ui/icons/MoreVert'; 
-import {IconButton} from '@material-ui/core';
-import ForwardIcon from '@material-ui/icons/Forward';
+// import {IconButton} from '@material-ui/core';
+// import ForwardIcon from '@material-ui/icons/Forward';
 
 import Modal from '../modal/modal.js'
 
@@ -13,6 +13,7 @@ export default class MessageBox extends Component {
         super(props)
         this.state = {
             msgText: "",
+            forwardMessageID:"",
             showContacts:false,
             show:false,
         }
@@ -21,8 +22,8 @@ export default class MessageBox extends Component {
         this.showContacts = this.showContacts.bind(this);
         
         this.showModal = this.showModal.bind(this);
-         this.hideModal = this.hideModal.bind(this);
-
+        this.hideModal = this.hideModal.bind(this);
+        this.renderModal = this.renderModal.bind(this);
         }
         showContacts(event) {
             event.preventDefault();
@@ -51,45 +52,95 @@ export default class MessageBox extends Component {
                 message: this.state.msgText,
                 date: moment().format('LT'),
                 message_type: "new-message",
-                originator: this.props.selectedUser._id
+                originator: this.props.loggedInUserObj._id,
+                senderid:this.props.loggedInUserObj._id,
+                recipient: this.props.selectedUser._id
             }
             this.props.setNewMsgObj(msgObj)
+            console.log("Send message to: ", this.props.selectedUser._id, " Name = ", this.findUserByID(this.props.selectedUser._id))
+            this.messageInfo(msgObj, this.props.selectedUser)
         }
         this.setState({ msgText: "" })
     }
 
-    forward (message, recipient) {
-        console.log ("[", message.senderid, "->", recipient, "] : ", message.message)
+    // Renders the modal and handles click
+    renderModal(){
+        return (
+        <div>
+            <Modal show={this.state.show} handleClose={this.hideModal}>
+                <ul className={"modalContacts"}>
+                    {this.props.users.map((user) => (
+                        <li className={"modalContact"} key={`${user._id}-modal`}>
+                            <button onClick={() => (this.forward(user))}>
+                                {user.name}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                <br></br>
+            </Modal>
+        </div>
+    )}
+
+    // Find message using its ID and return object
+    findMessage(messageID){
+        let messageList = this.props.messages.slice()
+        var message = messageList.find(m => m.messageId === messageID)
+        return message
+    }
+
+    findUserByID(userID){
+        let userList = this.props.users.slice()
+        
+        // To add current user in array
+        userList.push(this.props.loggedInUserObj)
+                
+        let user = userList.find((user) => user._id === userID)
+        return user.name
+    }
+
+    // Message Object, Receiver Object
+    messageInfo(message, receiver){
+        console.log("Message Object: ", message)
+        console.log("Receiver Object: ", receiver)
+        let senderName = this.findUserByID(message.senderid)
+        console.log("Sender name: ", senderName)
+        let originName = this.findUserByID(message.originator)
+        console.log("Originator name: ", originName)
+        let receiverName = this.findUserByID(message.recipient)
+        console.log("Receiver name: ", receiverName)
+
+        console.log(`Message: ${message.message}\nSent by: ${senderName}\nOriginated by: ${originName}\nReceived by: ${receiverName}\nForwarding to: ${receiver.name}`)
+    }
+
+    forward(recipientObject){
+        let message = this.findMessage(this.state.forwardMessageID)
+        console.log(message)
+        this.messageInfo(message, recipientObject)
+        
         let msgObj = {
             message: message.message,
             date: moment().format('LT'),
             message_type: "forwarded", 
             originator: message.originator,
-            recipient: recipient
+            recipient: recipientObject._id,
+            senderid: this.props.loggedInUserObj._id
         }
         this.props.setNewMsgObj(msgObj)
         this.hideModal();
     }
 
-    // adds the forward icon 
-    addForward (message) {
-        return (
-            <div>
-                <p>{message.message}</p>
-                <Modal show={this.state.show} handleClose={this.hideModal}>
-                    <ul>
-                        {this.props.users.map((user) => (
-                            <li><button onClick={() => (this.forward(message, user._id))}>
-                                {user.name}
-                            </button></li>
-                        ))}
-                    </ul>
-                    <br></br>
-                </Modal>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25" onClick={this.showModal}><path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z"></path></svg>
-            </div>
-            
-        )
+    // Goes a node up in DOM until it finds ID of a node (The message ID)
+    getParentID(e){
+        while(true){
+            let ID = e.id
+            if(!ID){
+                e = e.parentNode
+            }
+            else{
+                return ID
+            }
+        }
     }
 
     // Method to Display Messages
@@ -99,13 +150,16 @@ export default class MessageBox extends Component {
                 //  Display message you sent
                 if (message.receiverid === this.props.selectedUser._id) {
                     return (
-                        <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
-    
-                            <div className="forwardButton">
-                                {this.addForward(message)}
+                        <div key={`${message.messageId}-chat-element`} id={message.messageId} className={"w-3/4  flex my-2 justify-end float-right"}>
+                            {/* Display forwardbutton and then the message */}
+                            <div className={"forwardButton"} id={message.messageId} onClick={e => {this.setState({forwardMessageID:this.getParentID(e.target)}); this.showModal()}}>
+                                {this.renderModal()}
+                                <div id={message.messageId}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25" ><path fillRule="evenodd" clipRule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z" ></path></svg>
+                                </div>
                             </div>
     
-                            <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
+                            <div className={"w-max text-black shadow-lg clear-both p-2 rounded-md bg-green-200"}>
                                 {`${message.message_type==="forwarded"? "Forwarded:":""}`} {message.message}
                             </div>
                             
@@ -114,14 +168,17 @@ export default class MessageBox extends Component {
                 }
                 else {
                     return (
-                        <div key={message.messageId} className={`w-3/4  flex my-2 ${message.receiverid === this.props.selectedUser._id ? "justify-end float-right":""}` }>
+                        <div key={`${message.messageId}-chat-element`} id={message.messageId} className={`w-3/4  flex my-2`}>
    
-                            <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md ${message.receiverid === this.props.selectedUser._id ? "bg-green-200" : "bg-white"}` }>
+                            <div className={`w-max text-black shadow-lg clear-both p-2 rounded-md bg-white` }>
                                 {`${message.message_type==="forwarded"? "Forwarded:":""}`} {message.message}
                             </div>
                             
-                            <div className="forwardButton">
-                                {this.addForward(message)}
+                            <div className={"forwardButton"} id={message.messageId} onClick={e => {this.setState({forwardMessageID:this.getParentID(e.target)}); this.showModal()}}>
+                                {this.renderModal()}
+                                <div id={message.messageId}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25"><path fillRule="evenodd" clipRule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z" ></path></svg>
+                                </div>
                             </div>
 
                         </div>
@@ -135,25 +192,6 @@ export default class MessageBox extends Component {
 
     render() {
         return (
-            // <div className="chat">
-            //     <div className="chat_header">
-            //             <div className="w-12 rounded-full relative h-12 text-center mx-2">
-            //                  <img className="profile-picture absolute h-full object-cover self-center p-1" src={"/images/" + this.props.selectedUser.img} alt="dp" />
-            //             </div>
-            //         <div className="chat_header_info"> 
-            //             <h2>{this.props.selectedUser.name}</h2>
-            //         </div>
-
-            //         <div className="chat_header_right">
-            //             <SearchOutlined/>
-            //             <MoreVertIcon/>
-            //         </div>
-            //     </div>
-            //          <div className="message-area clearfix overflow-auto">
-            //              {this.addMessagesToChat()}
-            //          </div>
-            // </div>
-
             <div className="message-box w-3/5">
                 <div className=" w-full relative h-full grid grid-flow-rows">
                     {/* Contact Options Bar */}
