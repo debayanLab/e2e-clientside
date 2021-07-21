@@ -120,17 +120,18 @@ class SignalProtocolManager {
             sessionCipher = new libsignal.SessionCipher(this.store, address);
             this.store.storeSessionCipher(remoteUserId, sessionCipher);
         }
-
+        
         var messageHasEmbeddedPreKeyBundle = cipherText.type === 3;
         // Decrypt a PreKeyWhisperMessage by first establishing a new session.
         // Returns a promise that resolves when the message is decrypted or
         // rejects if the identityKey differs from a previously seen identity for this address.
+        var decryptedMessage;
         if (messageHasEmbeddedPreKeyBundle) {
-            var decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, 'binary');
+            decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, 'binary');
             return util.toString(decryptedMessage);
         } else {
             // Decrypt a normal message using an existing session
-            var decryptedMessage = await sessionCipher.decryptWhisperMessage(cipherText.body, 'binary');
+            decryptedMessage = await sessionCipher.decryptWhisperMessage(cipherText.body, 'binary');
             return util.toString(decryptedMessage);
         }
     }

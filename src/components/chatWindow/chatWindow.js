@@ -97,7 +97,7 @@ export default class ChatWindow extends Component {
     // Method to Send New Message using Web Socket when User hits send button from Message Box component
     async getNewMsgObj(newMsgObj) {
 
-        console.log ("my user ID: ", this.props.loggedInUserObj._id)
+        // console.log ("my user ID: ", this.props.loggedInUserObj._id)
 
         let msgToSend = {}
 
@@ -105,12 +105,12 @@ export default class ChatWindow extends Component {
         if (newMsgObj.message_type === "forwarded") {
             // Change state so that the recipient is the one we forward to
             let selectedUserChatId = this.getSelectedUserChatId(newMsgObj.recipient)
-            console.log ("[FORWARD] Recipient Chat ID: ", selectedUserChatId)
+            // console.log ("[FORWARD] Recipient Chat ID: ", selectedUserChatId)
             msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: newMsgObj.recipient, ...newMsgObj }
         }
         else {
             let selectedUserChatId = this.getSelectedUserChatId()
-            console.log ("Recipient ID: ", this.state.messageToUser._id)
+            // console.log ("Recipient ID: ", this.state.messageToUser._id)
             msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: this.state.messageToUser._id, ...newMsgObj }
         }
         
@@ -118,6 +118,7 @@ export default class ChatWindow extends Component {
         try {
             let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
             msgToSend.message = encryptedMessage
+            console.log('Received Message object: ', msgToSend)
             this.state.ws.send(JSON.stringify(msgToSend))
             this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
         } catch (error) {
@@ -130,7 +131,7 @@ export default class ChatWindow extends Component {
 
         let user = this.state.messageToUser._id
         if(userID){
-            console.log ("setting new user: ", user, userID)
+            // console.log ("setting new user: ", user, userID)
             user = userID
         }
         
