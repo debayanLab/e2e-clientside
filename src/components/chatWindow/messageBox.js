@@ -57,7 +57,7 @@ export default class MessageBox extends Component {
                 recipient: this.props.selectedUser._id
             }
             this.props.setNewMsgObj(msgObj)
-            // console.log("Send message to: ", this.props.selectedUser._id, " Name = ", this.findUserByID(this.props.selectedUser._id))
+            console.log("Send message to: ", this.props.selectedUser._id, " Name = ", this.findUserByID(this.props.selectedUser._id))
             this.messageInfo(msgObj, this.props.selectedUser)
         }
         this.setState({ msgText: "" })
@@ -101,18 +101,21 @@ export default class MessageBox extends Component {
 
     // Message Object, Receiver Object
     messageInfo(message, receiver){
-        console.log("Message Object (While being sent): ", message)
-        // console.log("Receiver Object: ", receiver)
+        console.log("Message Object: ", message)
+        console.log("Receiver Object: ", receiver)
         let senderName = this.findUserByID(message.senderid)
+        console.log("Sender name: ", senderName)
         let originName = this.findUserByID(message.originator)
+        console.log("Originator name: ", originName)
         let receiverName = this.findUserByID(message.recipient)
+        console.log("Receiver name: ", receiverName)
 
-        console.log(`Message: ${message.message}\nSent by: ${senderName} (${message.senderid})\nOriginated by: ${originName} (${message.originator})\nReceived by: ${receiverName} (${message.recipient})\nForwarding to: ${receiver.name} (${receiver._id})`)
+        console.log(`Message: ${message.message}\nSent by: ${senderName}\nOriginated by: ${originName}\nReceived by: ${receiverName}\nForwarding to: ${receiver.name}`)
     }
 
     forward(recipientObject){
         let message = this.findMessage(this.state.forwardMessageID)
-        // console.log(message)
+        console.log(message)
         this.messageInfo(message, recipientObject)
         
         let msgObj = {

@@ -45,7 +45,7 @@ const util = (function () {
             if (maxLength < 5) {
                 throw new Error("a/b compare too short");
             }
-            return a.substring(0, Math.min(maxLength, a.length)) === b.substring(0, Math.min(maxLength, b.length));
+            return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
         },
         arrayBufferToBase64: (buffer) => {
             let binary = '';

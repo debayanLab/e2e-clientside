@@ -39,7 +39,6 @@ SignalProtocolStore.prototype = {
   },
 
   isTrustedIdentity: function (identifier, identityKey, direction) {
-    // console.log(`Identifier: ${identifier}\nIdentity Key: ${identityKey.arrayBufferToBase64}`)
     if (identifier === null || identifier === undefined) {
       throw new Error("tried to check identity key for undefined/null key");
     }
