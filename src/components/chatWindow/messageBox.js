@@ -150,7 +150,6 @@ export default class MessageBox extends Component {
                         <div key={`${message.messageId}-chat-element`} id={message.messageId} className={"w-3/4  flex my-2 justify-end float-right"}>
                             {/* Display forwardbutton and then the message */}
                             <div className={"forwardButton"} id={message.messageId} onClick={e => {this.setState({forwardMessageID:this.getParentID(e.target)}); this.showModal()}}>
-                                {this.renderModal()}
                                 <div id={message.messageId}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25" ><path fillRule="evenodd" clipRule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z" ></path></svg>
                                 </div>
@@ -172,7 +171,6 @@ export default class MessageBox extends Component {
                             </div>
                             
                             <div className={"forwardButton"} id={message.messageId} onClick={e => {this.setState({forwardMessageID:this.getParentID(e.target)}); this.showModal()}}>
-                                {this.renderModal()}
                                 <div id={message.messageId}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="25" height="25"><path fillRule="evenodd" clipRule="evenodd" fill="currentColor" d="M14.248 6.973a.688.688 0 0 1 1.174-.488l5.131 5.136a.687.687 0 0 1 0 .973l-5.131 5.136a.688.688 0 0 1-1.174-.488v-2.319c-4.326 0-7.495 1.235-9.85 3.914-.209.237-.596.036-.511-.268 1.215-4.391 4.181-8.492 10.361-9.376v-2.22z" ></path></svg>
                                 </div>
@@ -206,6 +204,7 @@ export default class MessageBox extends Component {
                     {/* Messages Area */}
                     <div className="message-area clearfix overflow-auto my-20 p-2">
                         {this.addMessagesToChat()}
+                        {this.renderModal()}
                     </div>
                     {/* Input Box and other Options */}
                     <div className="input-box flex p-2 bottom-0 absolute inset-x-0 bg-white shadow-inner">
