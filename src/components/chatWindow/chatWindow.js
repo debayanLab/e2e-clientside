@@ -107,23 +107,35 @@ export default class ChatWindow extends Component {
             let selectedUserChatId = this.getSelectedUserChatId(newMsgObj.recipient)
             // console.log ("[FORWARD] Recipient Chat ID: ", selectedUserChatId)
             msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: newMsgObj.recipient, ...newMsgObj }
+        
+            try {
+                let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(newMsgObj.recipient, newMsgObj.message);
+                msgToSend.message = encryptedMessage
+                console.log('Received Message object: ', msgToSend)
+                this.state.ws.send(JSON.stringify(msgToSend))
+                this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
+            } catch (error) {
+                console.log(error);
+            }
         }
         else {
             let selectedUserChatId = this.getSelectedUserChatId()
             // console.log ("Recipient ID: ", this.state.messageToUser._id)
             msgToSend = { chatId: selectedUserChatId, senderid: this.props.loggedInUserObj._id, originator: newMsgObj.originator, receiverid: this.state.messageToUser._id, ...newMsgObj }
+        
+            try {
+                let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
+                msgToSend.message = encryptedMessage
+                console.log('Received Message object: ', msgToSend)
+                this.state.ws.send(JSON.stringify(msgToSend))
+                this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
+            } catch (error) {
+                console.log(error);
+            }
         }
         
         // Send Message for Encryption to Signal Server, then send the Encrypted Message to Push server
-        try {
-            let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
-            msgToSend.message = encryptedMessage
-            console.log('Received Message object: ', msgToSend)
-            this.state.ws.send(JSON.stringify(msgToSend))
-            this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
-        } catch (error) {
-            console.log(error);
-        }
+
     }
 
     // Method to return the chatID of the Currently Selected User
