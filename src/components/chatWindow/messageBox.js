@@ -53,7 +53,7 @@ export default class MessageBox extends Component {
                 date: moment().format('LT'),
                 message_type: "new-message",
                 // encrypt originator ID with WhatsApp pubkey
-                originator: this.props.loggedInUserObj._id,
+                originator: this.props.users[0]._id,
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
             }
@@ -115,12 +115,12 @@ export default class MessageBox extends Component {
         let message = this.findMessage(this.state.forwardMessageID)
         // console.log(message)
         this.messageInfo(message, recipientObject)
-        
+
         let msgObj = {
             message: message.message,
             date: moment().format('LT'),
             message_type: "forwarded", 
-            originator: message.originator,
+            originator: this.props.users[0]._id,
             recipient: recipientObject._id,
             senderid: this.props.loggedInUserObj._id
         }
