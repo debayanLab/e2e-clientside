@@ -52,6 +52,7 @@ export default class MessageBox extends Component {
                 message: this.state.msgText,
                 date: moment().format('LT'),
                 message_type: "new-message",
+                // encrypt originator ID with WhatsApp pubkey
                 originator: this.props.loggedInUserObj._id,
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
@@ -104,7 +105,7 @@ export default class MessageBox extends Component {
         console.log("Message Object (While being sent): ", message)
         // console.log("Receiver Object: ", receiver)
         let senderName = this.findUserByID(message.senderid)
-        let originName = this.findUserByID(message.originator)
+        let originName = message.message_type == "forwarded"? "Anonymous" : senderName
         let receiverName = this.findUserByID(message.recipient)
 
         console.log(`Message: ${message.message}\nSent by: ${senderName} (${message.senderid})\nOriginated by: ${originName} (${message.originator})\nReceived by: ${receiverName} (${message.recipient})\nForwarding to: ${receiver.name} (${receiver._id})`)
