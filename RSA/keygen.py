@@ -1,7 +1,7 @@
 import random
 import helper
 
-size = 1024
+size = 512
 
 #
 # Generate public-private key pair
