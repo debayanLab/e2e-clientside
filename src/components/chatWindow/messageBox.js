@@ -7,6 +7,13 @@ import './messageBox.css';
 
 import Modal from '../modal/modal.js'
 
+var BigInt = require ("big-integer")
+
+var pubkey = BigInt(parseInt("161510023813663892833151145035656091963310374336912551849958282745711908309593421621583252947174708277372190744221877170246411251861773682211653382059284221068153688225559174204505465761757659793295052158310339299524851084996635233485873060032998106551862508739475064179379527433114750742788463714850310963489"))
+var modulus = BigInt(parseInt("108966352546420157322056483946271028794053106811037905933019796405442348403832880840768931037848356935066199037924583960504674813707973620685893505650134605533078403463759283369792989073179697092035951901641578848337413809097642931827509602864867623780666180182197459869080647534957810562552397056047513228201"))
+
+console.log ("public key: ", pubkey, "\npublic modulus: ", modulus)
+
 export default class MessageBox extends Component {
 
     constructor(props) {
@@ -46,14 +53,37 @@ export default class MessageBox extends Component {
         this.setState({ msgText: e.target.value })
     }
 
+    modexp (m, e, n) {
+        var res = BigInt (1)
+        while (e > 0) {
+             
+            console.log (res)
+            // If exponent is odd
+            if ((e & 1) == 1) 
+                res = (res * m) % n
+    
+            // Our exponent must be even now 
+            e = e >> 1
+            m = (m * m) % n 
+        }
+        return res
+    }
+
+    RSA_encrpyt (m) {
+        var ciphertext = this.modexp (m, pubkey, modulus)
+        return ciphertext.toString()
+    }
+
     sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
+            var encryptedID = this.RSA_encrpyt((BigInt(parseInt(this.props.loggedInUserObj._id))))
+            console.log ("encrypted ID: ", encryptedID)
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),
                 message_type: "new-message",
                 // encrypt originator ID with WhatsApp pubkey
-                originator: this.props.loggedInUserObj._id,
+                originator: encryptedID,
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
             }
@@ -105,10 +135,10 @@ export default class MessageBox extends Component {
         console.log("Message Object (While being sent): ", message)
         // console.log("Receiver Object: ", receiver)
         let senderName = this.findUserByID(message.senderid)
-        let originName = message.message_type == "forwarded"? "Anonymous" : senderName
+        let originName = message.originator
         let receiverName = this.findUserByID(message.recipient)
 
-        console.log(`Message: ${message.message}\nSent by: ${senderName} (${message.senderid})\nOriginated by: ${originName} (${message.originator})\nReceived by: ${receiverName} (${message.recipient})\nForwarding to: ${receiver.name} (${receiver._id})`)
+        console.log(`Message: ${message.message}\nSent by: ${senderName} (${message.senderid})\nOriginated by: (${message.originator})\nReceived by: ${receiverName} (${message.recipient})\nForwarding to: ${receiver.name} (${receiver._id})`)
     }
 
     forward(recipientObject){
