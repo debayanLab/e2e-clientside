@@ -74,7 +74,17 @@ export default class MessageBox extends Component {
 
     sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
-            var encryptedID = this.RSA_encrpyt((BigInt(parseInt(this.props.loggedInUserObj._id))))
+            var str =  encodeURI(this.props.loggedInUserObj._id)
+            var myBuffer = [];
+            var buffer = new Buffer(str, 'utf16le')
+            for (var i = 0; i < buffer.length; i++) {
+                myBuffer.push(buffer[i]);
+            }
+            
+            var num = parseInt (myBuffer)
+            console.log(num);
+
+            var encryptedID = this.RSA_encrpyt((BigInt(num)))
             console.log ("encrypted ID: ", encryptedID)
             let msgObj = {
                 message: this.state.msgText,
