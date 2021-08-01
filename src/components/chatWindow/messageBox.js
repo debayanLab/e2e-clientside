@@ -145,7 +145,7 @@ export default class MessageBox extends Component {
         let message = this.findMessage(this.state.forwardMessageID)
         // console.log(message)
         this.messageInfo(message, recipientObject)
-        
+
         let msgObj = {
             message: message.message,
             date: moment().format('LT'),
