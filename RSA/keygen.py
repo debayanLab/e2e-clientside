@@ -47,8 +47,10 @@ def generateKeyPair():
 #
 def makeKeys ():
 	# Public key in the form of (e, n) 
-	# Private ket in the form of (d)
+	# Private ket in the form of (d, n)
 	PublicKey, PrivateKey = generateKeyPair()
+
+	print ("Writing public key")
 
 	# write public key
 	fo = open("public_key.txt", "w")
@@ -56,9 +58,15 @@ def makeKeys ():
 	fo.write("\n")
 	fo.write(str(PublicKey[1]).rstrip('\n'))
 
+
+	print ("Writing private key")
+
+
 	# write private key
 	fo = open("private_key.txt", "w")
-	fo.write(str(PrivateKey))
+	fo.write(str(PrivateKey).rstrip('\n'))
+	fo.write("\n")
+	fo.write(str(PublicKey[1]).rstrip('\n'))
 
 	fo.close()
 	return 0

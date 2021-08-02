@@ -9,8 +9,8 @@ import Modal from '../modal/modal.js'
 
 var BigInt = require ("big-integer")
 
-var pubkey = BigInt(parseInt("9421112991301452251024396501427833345357503562882475334149227587340432218994046097951284726924839960019716389097331412755506762551147529272849294512389587"))
-var modulus = BigInt(parseInt("1109355049844803514286306656707"))
+var pubkey = BigInt(parseInt("12896696021508711096275215716778786427143618596795787463232456992827082863295082263373696652570380310112350705939879201923338781495526305016453121735443217"))
+var modulus = BigInt(parseInt("514336084062574670679529160107"))
 
 console.log ("public key: ", pubkey, "\npublic modulus: ", modulus)
 
@@ -57,7 +57,7 @@ export default class MessageBox extends Component {
         var res = BigInt (1)
         while (e > 0) {
             // If exponent is odd
-            if ((e & 1) == 1) 
+            if ((e % 2) == 1) 
                 res = (res * m) % n
     
             // Our exponent must be even now 
@@ -68,23 +68,16 @@ export default class MessageBox extends Component {
     }
 
     RSA_encrpyt (m) {
+        // encrypt message with:
+        // c = m^e mod n
         var ciphertext = this.modexp (m, pubkey, modulus)
         return ciphertext.toString()
     }
 
     sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
-            var str =  encodeURI(this.props.loggedInUserObj._id)
-            var myBuffer = [];
-            var buffer = new Buffer(str, 'utf16le')
-            for (var i = 0; i < buffer.length; i++) {
-                myBuffer.push(buffer[i]);
-            }
-            
-            var num = parseInt (myBuffer)
-            console.log(num);
-
-            var encryptedID = this.RSA_encrpyt((BigInt(num)))
+            console.log (parseInt(this.props.loggedInUserObj._id, 16))
+            var encryptedID = this.RSA_encrpyt((BigInt(parseInt(this.props.loggedInUserObj._id, 16))))
             console.log ("encrypted ID: ", encryptedID)
             let msgObj = {
                 message: this.state.msgText,
