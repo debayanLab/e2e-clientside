@@ -1,18 +1,21 @@
-import React, { Component } from 'react'
-import moment from 'moment'
-import './messageBox.css';
-// import MoreVertIcon from '@material-ui/icons/MoreVert'; 
-// import {IconButton} from '@material-ui/core';
-// import ForwardIcon from '@material-ui/icons/Forward';
+    import React, { Component } from 'react'
+    import moment from 'moment'
+    import './messageBox.css';
+    // import MoreVertIcon from '@material-ui/icons/MoreVert'; 
+    // import {IconButton} from '@material-ui/core';
+    // import ForwardIcon from '@material-ui/icons/Forward';
 
-import Modal from '../modal/modal.js'
+    import Modal from '../modal/modal.js'
+
+const crypto = require("crypto");
+
+// generate a key-pair
+const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+  // The standard secure default length for RSA keys is 2048 bits
+  modulusLength: 2048,
+});
 
 var BigInt = require ("big-integer")
-
-var pubkey = BigInt(parseInt("12896696021508711096275215716778786427143618596795787463232456992827082863295082263373696652570380310112350705939879201923338781495526305016453121735443217"))
-var modulus = BigInt(parseInt("514336084062574670679529160107"))
-
-console.log ("public key: ", pubkey, "\npublic modulus: ", modulus)
 
 export default class MessageBox extends Component {
 
@@ -22,7 +25,7 @@ export default class MessageBox extends Component {
             msgText: "",
             forwardMessageID:"",
             showContacts:false,
-            show:false,
+                show:false,
         }
         this.sendMessageToServer = this.sendMessageToServer.bind(this)
 
@@ -53,32 +56,63 @@ export default class MessageBox extends Component {
         this.setState({ msgText: e.target.value })
     }
 
-    modexp (m, e, n) {
-        var res = BigInt (1)
-        while (e > 0) {
-            // If exponent is odd
-            if ((e % 2) == 1) 
-                res = (res * m) % n
+    modexp(m, e, N) {
+        var result = BigInt(1);
+        N = BigInt(N);
+        e = BigInt(e);
+        m = BigInt(m).mod(N);
+      
+        if ( m.isZero() ) return 0;
+      
+        while(  e.greater(0)  ) {
+            if ( e.isOdd() ) {
+                result = result.times(m).mod(N);
+              }
     
-            // Our exponent must be even now 
-            e = e / 2  
-            m = (m * m) % n 
-        }
-        return BigInt(res)
+              e = e.shiftRight(1); // divide by 2
+              m = m.square().mod(N); // can be optimized a bit
+    
+         }
+          
+        return result.toJSNumber();
     }
-
-    RSA_encrpyt (m) {
-        // encrypt message with:
-        // c = m^e mod n
-        var ciphertext = this.modexp (m, pubkey, modulus)
-        return ciphertext.toString()
+    RSA_encrpyt (message) {
+        const encryptedData = crypto.publicEncrypt(
+            {
+              key: publicKey,
+              padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+              oaepHash: "sha256",
+            },
+            // We convert the data string to a buffer using `Buffer.from`
+            Buffer.from(message)
+          );
+        
+        // bytes -> base64
+        console.log("encypted data: ", encryptedData.toString("base64"));
+        
+        const decryptedData = crypto.privateDecrypt(
+            {
+              key: privateKey,
+              // In order to decrypt the data, we need to specify the
+              // same hashing function and padding scheme that we used to
+              // encrypt the data in the previous step
+              padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+              oaepHash: "sha256",
+            },
+            encryptedData
+          );
+          
+          // The decrypted data is of the Buffer type, which we can convert to a
+          // string to reveal the original data
+          console.log("decrypted data: ", decryptedData.toString());
+        
+        return encryptedData.toString("base64");
     }
 
     sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
-            console.log (parseInt(this.props.loggedInUserObj._id, 16))
-            var encryptedID = this.RSA_encrpyt((BigInt(parseInt(this.props.loggedInUserObj._id, 16))))
-            console.log ("encrypted ID: ", encryptedID)
+            console.log (this.props.loggedInUserObj._id)
+            var encryptedID = this.RSA_encrpyt(this.props.loggedInUserObj._id)
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),

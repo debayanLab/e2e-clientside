@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
     "big-integer": "^1.6.48",
+    "crypto": "^1.0.1",
     "materialize-css": "^1.0.0-rc.2",
     "mdb-react-ui-kit": "^1.0.0-beta7",
     "moment": "^2.29.1",

@@ -1,22 +1,47 @@
-var BigInt = require ('big-integer')
+const crypto = require("crypto");
 
+// The `generateKeyPairSync` method accepts two arguments:
+// 1. The type ok keys we want, which in this case is "rsa"
+// 2. An object with the properties of the key
+const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+  // The standard secure default length for RSA keys is 2048 bits
+  modulusLength: 2048,
+});
 
-var pubkey = BigInt(parseInt("485687215192613646631526111945"))
-var modulus = BigInt(parseInt("514336084062574670679529160107"))
+console.log (publicKey, privateKey)
 
-var ciphertext = BigInt(parseInt("226562498481701811774392631296"))
+// This is the data we want to encrypt
+const data = "my secret data";
 
-function modexp (m, e, n) {
-    var res = BigInt (1)
-    while (e > 0) {
-        // If exponent is odd
-        if ((e % 2) == 1) 
-            res = (res * m) % n
+const encryptedData = crypto.publicEncrypt(
+  {
+    key: publicKey,
+    padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+    oaepHash: "sha256",
+  },
+  // We convert the data string to a buffer using `Buffer.from`
+  Buffer.from(data)
+);
 
-        // Our exponent must be even now 
-        e = e / 2  
-        m = (m * m) % n 
-    }
-    return BigInt(res)
-}
+// The encrypted data is in the form of bytes, so we print it in base64 format
+// so that it's displayed in a more readable form
+console.log("encypted data: ", encryptedData.toString("base64"));
 
+const base64String = encryptedData.toString("base64");
+const byteArray = Buffer.from(base64String.replace(/^[\w\d;:\/]+base64\,/g, ''), 'base64');
+
+const decryptedData = crypto.privateDecrypt(
+    {
+      key: privateKey,
+      // In order to decrypt the data, we need to specify the
+      // same hashing function and padding scheme that we used to
+      // encrypt the data in the previous step
+      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      oaepHash: "sha256",
+    },
+    byteArray
+  );
+  
+  // The decrypted data is of the Buffer type, which we can convert to a
+  // string to reveal the original data
+  console.log("decrypted data: ", decryptedData.toString());
