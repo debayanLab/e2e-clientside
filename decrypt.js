@@ -1,33 +1,13 @@
-var BigInt = require ('big-integer')
+var NodeRSA = require ("node-rsa");
+var fs = require ("fs");
 
-var private = BigInt("485687215192613646631526111945")
-var modulus = BigInt("514336084062574670679529160107")
+var privateKeyData = fs.readFileSync ("./keys/private.pem", "utf-8");
 
-var ciphertext = BigInt("403526837694589956406686580107")
+var privateKey = new NodeRSA().importKey (privateKeyData);
 
-function modexp(m, e, N) {
-    var result = BigInt(1);
-    N = BigInt(N);
-    e = BigInt(e);
-    m = BigInt(m).mod(N);
-  
-    if ( m.isZero() ) return 0;
-  
-    while(  e.greater(0)  ) {
-        if ( e.isOdd() ) {
-            result = result.times(m).mod(N);
-          }
+const ciphertext =
+`aebB+hyPNM6YqaEOGBsaCrfokYScVUfY9OntLCPomC0CL7mNCRokf/JxKw4h08qlOW68MRV2qyLywgV7MPIKvmq0kDcq2QWZCfawlasR03/PCLgj/5sOnVK/W+usyiRvKY3cyI+vXZGRfKbSHO+kp0Nmc4PqjfUUEPa+CRk0wwYYeW2rSLgDaf9DsS/wgZ0d+PobHrzAUuUQjpu92rRCDRIFml0ZZsyoK3yf7NiW5YCKw8ljgBaPQ4aovOA+UR7l0GXk5MpaPKSWQ1XdRkdbs8Z9vNuhTQkjOMnosTwFpZSkZ6KgV+RXdyQpYSdHZhd7RvW4Uvxp+skR/hzmLGnvlQ==`;
 
-          e = e.shiftRight(1); // divide by 2
-          m = m.square().mod(N); // can be optimized a bit
+const plaintext = privateKey.decrypt (ciphertext, "utf-8");
 
-     }
-      
-    return result.toJSNumber();
-}
-
-// var decrypted = modexp (ciphertext, private, modulus)
-
-var decrypted = ciphertext.modPow (private, modulus)
-
-console.log (decrypted)
+console.log (plaintext);

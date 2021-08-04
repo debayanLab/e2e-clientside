@@ -1,21 +1,30 @@
-    import React, { Component } from 'react'
-    import moment from 'moment'
-    import './messageBox.css';
-    // import MoreVertIcon from '@material-ui/icons/MoreVert'; 
-    // import {IconButton} from '@material-ui/core';
-    // import ForwardIcon from '@material-ui/icons/Forward';
+import React, { Component } from 'react'
+import moment from 'moment'
+import './messageBox.css';
+// import MoreVertIcon from '@material-ui/icons/MoreVert'; 
+// import {IconButton} from '@material-ui/core';
+// import ForwardIcon from '@material-ui/icons/Forward';
 
-    import Modal from '../modal/modal.js'
+import Modal from '../modal/modal.js'
 
-const crypto = require("crypto");
+var NodeRSA = require ("node-rsa");
+var fs = require ("fs");
 
-// generate a key-pair
-const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
-  // The standard secure default length for RSA keys is 2048 bits
-  modulusLength: 2048,
-});
+var publicKey = new NodeRSA();
+var privateKey = new NodeRSA();
 
-var BigInt = require ("big-integer")
+var publicKeyData = 
+`-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh/mTk2Jzb/t6syZKtIFL
+BUntfxP8YRfz+XXh6KzpzkhZLgsyJPNQb0YSFxy/d2r/YH7KGMlN0i5tyben1AG+
+LaB+zFacaicHqHOT7ismBzRKTQIRJFC6iE8P3riSdynwXRPQ9sisp3dxFxMgtSIM
+tbdMS8+qlI/tVg9z6WYARu6o8tPQAlHzUeHTpQp6UJl/x+/bDVr5R0bf4nGRny4j
++fBGtLYfJ/EuNbxS1vYv2/mSLygYFk06f52BtyqxoxIKO7iuTO4Sk6ohkk9mmoRc
+f8ns5Wy5k+fTYTSux9/aZyN8CqPuOCn9pkEkWNYi2vkllQwG1HokW1Yo2OUmLz0q
+WwIDAQAB
+-----END PUBLIC KEY-----`;
+
+publicKey.importKey (publicKeyData);
 
 export default class MessageBox extends Component {
 
@@ -56,69 +65,15 @@ export default class MessageBox extends Component {
         this.setState({ msgText: e.target.value })
     }
 
-    modexp(m, e, N) {
-        var result = BigInt(1);
-        N = BigInt(N);
-        e = BigInt(e);
-        m = BigInt(m).mod(N);
-      
-        if ( m.isZero() ) return 0;
-      
-        while(  e.greater(0)  ) {
-            if ( e.isOdd() ) {
-                result = result.times(m).mod(N);
-              }
-    
-              e = e.shiftRight(1); // divide by 2
-              m = m.square().mod(N); // can be optimized a bit
-    
-         }
-          
-        return result.toJSNumber();
-    }
-    RSA_encrpyt (message) {
-        const encryptedData = crypto.publicEncrypt(
-            {
-              key: publicKey,
-              padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-              oaepHash: "sha256",
-            },
-            // We convert the data string to a buffer using `Buffer.from`
-            Buffer.from(message)
-          );
-        
-        // bytes -> base64
-        console.log("encypted data: ", encryptedData.toString("base64"));
-        
-        const decryptedData = crypto.privateDecrypt(
-            {
-              key: privateKey,
-              // In order to decrypt the data, we need to specify the
-              // same hashing function and padding scheme that we used to
-              // encrypt the data in the previous step
-              padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-              oaepHash: "sha256",
-            },
-            encryptedData
-          );
-          
-          // The decrypted data is of the Buffer type, which we can convert to a
-          // string to reveal the original data
-          console.log("decrypted data: ", decryptedData.toString());
-        
-        return encryptedData.toString("base64");
-    }
-
-    sendMessageToServer() {
+    async sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
             console.log (this.props.loggedInUserObj._id)
-            var encryptedID = this.RSA_encrpyt(this.props.loggedInUserObj._id)
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),
                 message_type: "new-message",
                 // encrypt originator ID with WhatsApp pubkey
-                originator: encryptedID,
+                originator: publicKey.encrypt (this.props.loggedInUserObj._id, "base64"),
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
             }
