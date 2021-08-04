@@ -1,18 +1,27 @@
 # e2e-clientside
 
-1) Install react
-2) Install and use yarn
-3) Go to the repo and type: npm start
+Client side implementation of Prof. V Kamakoti's Second Proposal to the Madras High Court. The original paper can be found [here](https://ia801009.us.archive.org/24/items/reportofprof.kamakotiinwpnos.20214and20774of2018/Report%20of%20Prof.%20Kamakoti%20in%20WP%20Nos.20214%20and%2020774%20of%202018_text.pdf)
 
-For Icons:
-1) npm install @material-ui/core
+## The Proposal
 
-2) yarn add @material-ui/core
+Prof. Kamakoti's Second Proposal included Encrypting the userID of the originator using a public key provided by WhatsApp, which can only be decrypted by its corresponding private key.
 
-3) npm install @material-ui/icons
+## Steps to run
 
-4) yarn add @material-ui/icons
+First, clone the repository into your local machine
 
-(Note: Readme needs update; only temporary)
+```sh
+$ git clone --single-branch -b kamakoti-v2-honest https://github.com/debayanLab/e2e-clientside
+```
 
-Citation: https://github.com/VertikaJain/react-chat-app
+Install all required dependencies
+
+```sh
+$ npm install
+```
+
+After making sure that the backend is running, start the development server
+
+```sh
+$ npm start
+```
