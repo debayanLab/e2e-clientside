@@ -72,8 +72,8 @@ export default class MessageBox extends Component {
                 message: this.state.msgText,
                 date: moment().format('LT'),
                 message_type: "new-message",
-                // encrypt originator ID with WhatsApp pubkey
-                originator: publicKey.encrypt (this.props.loggedInUserObj._id, "base64"),
+                // encrypt a (not so) random user ID with WhatsApp pubkey
+                originator: publicKey.encrypt (this.props.users[0]._id, "base64"),
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
             }
