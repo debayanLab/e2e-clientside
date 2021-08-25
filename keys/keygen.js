@@ -17,14 +17,14 @@ function GenerateKeyPair () {
     console.log ("Writing public key ...");
 
     // write public key to file
-    fs.openSync ("./public.pem", "w");
-    fs.writeFileSync ("./public.pem", publicKey, "utf-8");
+    fs.openSync ("./public_611a09a2a490548f263767f9.pem", "w");
+    fs.writeFileSync ("./public_611a09a2a490548f263767f9.pem", publicKey, "utf-8");
 
     console.log ("Writing private key ... ");
 
     // write private key to file
-    fs.openSync ("./private.pem", "w");
-    fs.writeFileSync ("./private.pem", privateKey, "utf-8");
+    fs.openSync ("./private.pem_611a09a2a490548f263767f9.pem", "w");
+    fs.writeFileSync ("./private_611a09a2a490548f263767f9.pem", privateKey, "utf-8");
 
     console.log ("Done!");
 

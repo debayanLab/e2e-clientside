@@ -8,12 +8,13 @@ export default class ChatApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      allUsers:{},
+      all_users:[],
       isLoggedIn: false,
       loggedInUserObj: {},
       dummySignalServer: new SignalServerStore(),
       signalProtocolManagerUser: undefined
     }
+
     this.setLoggedinUser = this.setLoggedinUser.bind(this)
   }
 
@@ -28,12 +29,14 @@ export default class ChatApp extends Component {
 
   }
 
-  async componentDidMount(allUsers){
+  async componentDidMount(){
     const url="https://kamakoti-server.herokuapp.com/api/users";
     const response = await fetch(url);
     const users = await response.json();
-    this.setState({allUsers: users.data});
-    console.log(users.data[0]._id);
+    this.setState({all_users: users.data});
+    
+    //delete the comment and line 28 later:
+    console.log(this.state.all_users);
   }
 
   render() {
