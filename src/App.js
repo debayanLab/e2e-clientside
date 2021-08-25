@@ -80,7 +80,6 @@ export default class ChatApp extends Component {
           </Route>
           
           <Route component={notFound}>
-
           </Route>
           
          
