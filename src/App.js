@@ -60,10 +60,11 @@ export default class ChatApp extends Component {
           </Route>
 
 
-          <Route path="/public_keys/:id">
+          <Route path={"/public_keys/:id"}>
               <div className="body">
                 <DynamicLinks name={this.state.all_users}/>
-                {/* {
+                {/* <h1>Public Key Repo</h1>
+                {
                   this.state.all_users.map( (users) =>
                     <div>
                       {users._id}
