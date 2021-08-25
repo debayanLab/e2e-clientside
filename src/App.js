@@ -4,9 +4,10 @@ import ChatWindow from "./components/chatWindow/chatWindow";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway"
 
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import DynamicLinks from './components/DynamicLinks/DynamicLinks';
+import notFound from './components/notFound/notFound';
 
 export default class ChatApp extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ export default class ChatApp extends Component {
 
   render() {
     return (
+
       <Router>
         <Switch>
           <Route exact path="/">
@@ -57,24 +59,31 @@ export default class ChatApp extends Component {
             </div>
           </Route>
 
-          
+
           <Route path="/public_keys/:id">
               <div className="body">
                 <h2>Public keys of users</h2>
-                
                 {
                   this.state.all_users.map( (users) =>
-                  <div>
-                    {users._id}
-                  </div>
+                    <div>
+                      {users._id}
+                    </div>
                   )
                 }
-                
               </div>  
           </Route>
+          
+          <Route component={notFound}>
+          <div className="body">
+            <h1>404 - Page Not Found</h1> 
+          </div>
+          </Route>
+          
+         
 
         </Switch>
       </Router>
+
     )
   }
 }
