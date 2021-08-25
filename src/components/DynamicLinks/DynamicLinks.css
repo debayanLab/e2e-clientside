@@ -4,16 +4,26 @@
     width: 100vw;
     display: grid;
     place-items: center;
+    padding-top: 50px;
+    padding-bottom: 500px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.import {
+    margin: 100;
+    padding-bottom: 15px;
+
 }
 
 .login_container {
     margin: 0;
-    padding: 50px 80px;
+    padding-top: 50px;
+    padding-bottom: 50px;
     text-align: center;
     background-color: white;
-    border-radius: 15px;
-    box-shadow: -1px 4px 20px -6px rgb(0, 0, 0, 0.75);
 }
+
 
 .image {
     object-fit: contain;
@@ -32,7 +42,7 @@
     color: red;
 }
 
-.login_container > h1 {
+.import > h1 {
     font-size: 23px;
     padding-bottom: 15px;
     font-weight: bold;

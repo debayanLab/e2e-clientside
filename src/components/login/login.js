@@ -16,6 +16,8 @@ export default class Login extends Component {
         this.props.loginProp(loggedInUserObj)
     }
 
+    
+
     login = async () => {
         // Call Login API to get user ID if the user exists in DB
         try {
