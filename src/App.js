@@ -41,7 +41,7 @@ export default class ChatApp extends Component {
     this.setState({all_users: users.data});
 
     //delete the comment and line 28 later:
-    console.log(this.state.all_users);
+    //console.log(this.state.all_users);
   }
 
   render() {
@@ -62,14 +62,14 @@ export default class ChatApp extends Component {
 
           <Route path="/public_keys/:id">
               <div className="body">
-                <h2>Public keys of users</h2>
-                {
+                <DynamicLinks name={this.state.all_users}/>
+                {/* {
                   this.state.all_users.map( (users) =>
                     <div>
                       {users._id}
                     </div>
                   )
-                }
+                } */}
               </div>  
           </Route>
           
