@@ -31,6 +31,20 @@ const getContacts = async (userid, role) => {
     })
 }
 
+const allUsers = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await axios({
+                method: 'get',
+                url: Constants.BASE_URL + 'api/users/'
+            })
+            resolve(response)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 
 const API = {
     logIn,
