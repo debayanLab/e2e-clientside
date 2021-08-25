@@ -4,6 +4,10 @@ import ChatWindow from "./components/chatWindow/chatWindow";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway"
 
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import DynamicLinks from './components/DynamicLinks/DynamicLinks';
+
 export default class ChatApp extends Component {
   constructor(props) {
     super(props)
@@ -34,20 +38,43 @@ export default class ChatApp extends Component {
     const response = await fetch(url);
     const users = await response.json();
     this.setState({all_users: users.data});
-    
+
     //delete the comment and line 28 later:
     console.log(this.state.all_users);
   }
 
   render() {
     return (
-      <div className="App">
-        { !this.state.isLoggedIn && <Login loginProp={this.setLoggedinUser} />}
-        { this.state.isLoggedIn && <ChatWindow
-          loggedInUserObj={this.state.loggedInUserObj}
-          signalProtocolManagerUser={this.state.signalProtocolManagerUser}
-        />}
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <div className="App">
+              { !this.state.isLoggedIn && <Login loginProp={this.setLoggedinUser} />}
+              { this.state.isLoggedIn && <ChatWindow
+                loggedInUserObj={this.state.loggedInUserObj}
+                signalProtocolManagerUser={this.state.signalProtocolManagerUser}
+              />}
+            </div>
+          </Route>
+
+          
+          <Route path="/public_keys/:id">
+              <div className="body">
+                <h2>Public keys of users</h2>
+                
+                {
+                  this.state.all_users.map( (users) =>
+                  <div>
+                    {users._id}
+                  </div>
+                  )
+                }
+                
+              </div>  
+          </Route>
+
+        </Switch>
+      </Router>
     )
   }
 }
