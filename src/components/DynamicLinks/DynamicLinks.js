@@ -10,6 +10,7 @@ const DynamicLinks = (props) => {
     // const [name, setName] = React.useState('');
     // const [role, setrole] = React.useState('');
     const [xid, setXid] = React.useState('');
+    const [public_key, setPublic_key] = React.useState('');
     const [loading, setLoading] = React.useState(true);
     const [exist, setExist] = React.useState(true);
 
@@ -21,6 +22,8 @@ const DynamicLinks = (props) => {
                 if (found){
                     let current = props.team.filter((entry) => entry._id === id )
                     setXid(current[0]._id)
+                    setPublic_key(current[0].public_key)
+                    
                     setLoading(false);
                 }
                 else {
@@ -32,15 +35,18 @@ const DynamicLinks = (props) => {
 
     return (
         <div className="body">
+        <div className="login_container">
             {!exist && (<Redirect to="/notFound" />)}
             {loading ? (<h2>Loading ...</h2>) :(<React.Fragment>
-                <h2>Public keys of users</h2>
+                <h1>User Id and Public key</h1>
                     <div classname="import">
-                        <h1>User ID : {xid}</h1>
+                        <h1><b>User ID :</b> {xid}</h1>
+                        <br></br>
+                        <h1><b>Public Key:</b> {public_key}</h1>
                     </div>
             </React.Fragment>)}
 
-               
+            </div>
         </div>
     )
 }

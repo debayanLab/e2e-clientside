@@ -25,14 +25,13 @@ export default class ChatApp extends Component {
   }
 
   async componentDidMount(){
-    const url="https://kamakoti-server.herokuapp.com/api/users";
+    const url="http://localhost:4000/api/users";
     const response = await fetch(url);
     const users = await response.json();
     this.setState({all_users: users.data});
 
     //delete the comment and line 28 later:
     //console.log(this.state.all_users);
-
   }
 
   setLoggedinUser(loggedInUserObj) {
@@ -67,15 +66,6 @@ export default class ChatApp extends Component {
           <Route exact path={"/public_keys/:id" }>
                 
                 {<DynamicLinks team={this.state.all_users}/>}
-                {/* <h1>Public Key Repo</h1>
-                
-                {
-                  this.state.all_users.map( (users) =>
-                    <div>
-                      {users._id}
-                    </div>
-                  )
-                } */}
                
           </Route>
           

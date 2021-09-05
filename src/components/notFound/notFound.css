@@ -5,3 +5,9 @@
     display: grid;
     place-items: center;
 }
+
+.text > h1 {
+    font-size: 23px;
+    padding-bottom: 15px;
+    font-weight: bold;
+}
