@@ -97,6 +97,7 @@ export default class MessageBox extends Component {
             var o_name = this.props.loggedInUserObj.name;
             //setting up corresponding key:
             //should be done efficiently 
+            var sign_name="";
             if  (o_name = "Abhinav"){
                 sign_name=Abhinav
             }
