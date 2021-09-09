@@ -25,7 +25,7 @@ export default class ChatApp extends Component {
   }
 
   async componentDidMount(){
-    const url="http://localhost:4000/api/users";
+    const url="https://blinded-db.herokuapp.com/api/users";
     const response = await fetch(url);
     const users = await response.json();
     this.setState({all_users: users.data});

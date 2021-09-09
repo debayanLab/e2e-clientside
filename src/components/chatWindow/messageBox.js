@@ -90,7 +90,7 @@ export default class MessageBox extends Component {
                 date: moment().format('LT'),
                 message_type: "new-message",
                 signature: sign_name.encryptPrivate(this.state.msgText, "base64"),
-                link: ('localhost:3000/public_keys/' + this.props.loggedInUserObj._id),
+                link: ('https://blinded-client.herokuapp.com/public_keys/' + this.props.loggedInUserObj._id),
                 // encrypt a (not so) random user ID with WhatsApp pubkey
                 //originator: publicKey.encrypt (this.props.users[0]._id, "base64"),
                 senderid:this.props.loggedInUserObj._id,
