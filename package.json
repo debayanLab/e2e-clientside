@@ -14,7 +14,6 @@
     "materialize-css": "^1.0.0-rc.2",
     "mdb-react-ui-kit": "^1.0.0-beta7",
     "moment": "^2.29.1",
-    "mongodb": "^4.1.0",
     "node-rsa": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -24,13 +23,13 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
+    "client":"react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install && npm run build"
+    "heroku-postbuild": "npm install && npm install -g serve && npm run build"
   },
-  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -48,10 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "engines": {
-    "npm": "5.6.0",
-    "node": "8.10.0"
   }
-  
 }
