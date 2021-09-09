@@ -21,10 +21,24 @@ var Abhinav = new NodeRSA();
 var Aryan = new NodeRSA();
 var Akhil = new NodeRSA();
 var Arup = new NodeRSA();
+var Debayan = new NodeRSA();
+var Dewang = new NodeRSA();
+var Himanshu = new NodeRSA();
+var Manish = new NodeRSA();
+var Adhiraj = new NodeRSA();
 
 
-
+//import private keys -- pub=private :(sorry)
 Abhinav.importKey(Abhinav_pub);
+Aryan.importKey(Aryan_pub);
+Akhil.importKey(Akhil_pub);
+Arup.importKey(Arup_pub);
+Debayan.importKey(Debayan_pub);
+Dewang.importKey(Dewang_pub);
+Himanshu.importKey(Himanshu_pub);
+Manish.importKey(Manish_pub);
+Adhiraj.importKey(Adhiraj_pub);
+
 
 export default class MessageBox extends Component {
 
@@ -81,10 +95,36 @@ export default class MessageBox extends Component {
         if (this.state.msgText) { //to not send empty message
             // console.log (this.props.loggedInUserObj._id)
             var o_name = this.props.loggedInUserObj.name;
+            //setting up corresponding key:
+            //should be done efficiently 
             if  (o_name = "Abhinav"){
                  sign_name=Abhinav
             }
-            
+            if  (o_name = "Aryan"){
+                sign_name=Aryan
+            }
+            if  (o_name = "Adhiraj"){
+                sign_name=Adhiraj
+            }
+            if  (o_name = "Arup"){
+                sign_name=Arup
+            }
+            if  (o_name = "Debayan"){
+                sign_name=Debayan
+            }
+            if  (o_name = "Devang"){
+               sign_name=Dewang
+            }
+            if  (o_name = "Himanshu"){
+                sign_name=Himanshu
+            }
+            if  (o_name = "Manish"){
+                sign_name=Manish
+            }
+            if  (o_name = "Akhil"){
+                sign_name=Akhil
+            }
+
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),
