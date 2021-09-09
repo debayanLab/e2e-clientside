@@ -36,7 +36,7 @@ export default class ChatWindow extends Component {
         this.setState({ chats: { ...lsChats } })
 
         // Web Socket Connection
-        let ws = new WebSocket(`ws://blinded-db.herokuapp.com/chat/${this.props.loggedInUserObj._id}`)
+        let ws = new WebSocket(`wss://blinded-db.herokuapp.com/chat/${this.props.loggedInUserObj._id}`)
         console.log("New Web Socket Connection: ", ws);
 
         ws.onopen = () => {
