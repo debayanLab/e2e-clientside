@@ -14,13 +14,13 @@
     "materialize-css": "^1.0.0-rc.2",
     "mdb-react-ui-kit": "^1.0.0-beta7",
     "moment": "^2.29.1",
-    "node-fetch": "^3.0.0",
+    "mongodb": "^4.1.0",
+    "node-rsa": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-moment": "^1.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
-    "reactjs-popup": "^2.0.5",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -30,6 +30,7 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm install && npm run build"
   },
+  "proxy": "http://localhost:8080",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -47,5 +48,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "npm": "5.6.0",
+    "node": "8.10.0"
   }
+  
 }
