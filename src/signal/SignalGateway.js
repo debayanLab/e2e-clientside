@@ -1,4 +1,4 @@
-
+import axios from 'axios';
 import util from './helpers'
 import SignalProtocolStore from "./InMemorySignalProtocolStore";
 
@@ -8,6 +8,22 @@ const libsignal = window.libsignal
  * In a real application this component would connect to your signal 
  * server for storing and fetching user public keys over HTTP.
  */
+
+async function serverCreateKey(userId, storageBundle){
+    let bundleObj = {"userID": userId, "data": storageBundle}
+    await axios.post('https://kamakoti-prekeys-server.herokuapp.com/create', bundleObj)
+}
+
+async function serverUpdateKey(userId, storageBundle){
+    let bundleObj = {"userID": userId, "newBundle": storageBundle}
+    await axios.post('https://kamakoti-prekeys-server.herokuapp.com/updateKey', bundleObj)
+}
+
+function serverFetchKey(userId){
+    let bundleObj = {"userID": userId}
+    return axios.post('https://kamakoti-prekeys-server.herokuapp.com/findKey', bundleObj).then(response => response.data)
+}
+
 export class SignalServerStore {
     /**
      * When a user logs on they should generate their keys and then register them with the server.
@@ -27,10 +43,12 @@ export class SignalServerStore {
         storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey)
         storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature)
         localStorage.setItem(userId, JSON.stringify(storageBundle))
+        serverCreateKey(userId, JSON.stringify(storageBundle))
     }
 
     updatePreKeyBundle(userId, preKeyBundle) {
         localStorage.setItem(userId, JSON.stringify(preKeyBundle))
+        serverUpdateKey(userId, JSON.stringify(preKeyBundle))
     }
     /**
      * Gets the pre-key bundle for the given user ID.
@@ -38,8 +56,9 @@ export class SignalServerStore {
      * 
      * @param userId The ID of the user.
      */
-    getPreKeyBundle(userId) {
-        let preKeyBundle = JSON.parse(localStorage.getItem(userId))
+    async getPreKeyBundle(userId) {
+        let preKeyBundle1 = await serverFetchKey(userId)
+        let preKeyBundle = JSON.parse(preKeyBundle1.data)
         let preKey = preKeyBundle.preKeys.splice(-1)
         preKey[0].publicKey = util.base64ToArrayBuffer(preKey[0].publicKey)
         this.updatePreKeyBundle(userId, preKeyBundle)
@@ -91,7 +110,7 @@ class SignalProtocolManager {
             // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
             var sessionBuilder = new libsignal.SessionBuilder(this.store, address);
 
-            var remoteUserPreKey = this.signalServerStore.getPreKeyBundle(remoteUserId);
+            var remoteUserPreKey = await this.signalServerStore.getPreKeyBundle(remoteUserId);
             // Process a prekey fetched from the server. Returns a promise that resolves
             // once a session is created and saved in the store, or rejects if the
             // identityKey differs from a previously seen identity for this address.
@@ -208,7 +227,3 @@ export async function createSignalProtocolManager(userid, name, dummySignalServe
     ]);
     return signalProtocolManagerUser
 }
-
-
-
-
