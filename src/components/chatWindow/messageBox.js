@@ -98,30 +98,30 @@ export default class MessageBox extends Component {
             //setting up corresponding key:
             //should be done efficiently 
             if  (o_name = "Abhinav"){
-                 sign_name=Abhinav
+                sign_name=Abhinav
             }
-            if  (o_name = "Aryan"){
+            else if  (o_name = "Aryan"){
                 sign_name=Aryan
             }
-            if  (o_name = "Adhiraj"){
+            else if  (o_name = "Adhiraj"){
                 sign_name=Adhiraj
             }
-            if  (o_name = "Arup"){
+            else if  (o_name = "Arup"){
                 sign_name=Arup
             }
-            if  (o_name = "Debayan"){
+            else if  (o_name = "Debayan"){
                 sign_name=Debayan
             }
-            if  (o_name = "Devang"){
+            else if  (o_name = "Devang"){
                sign_name=Dewang
             }
-            if  (o_name = "Himanshu"){
+            else if  (o_name = "Himanshu"){
                 sign_name=Himanshu
             }
-            if  (o_name = "Manish"){
+            else if  (o_name = "Manish"){
                 sign_name=Manish
             }
-            if  (o_name = "Akhil"){
+            else  (o_name = "Akhil"){
                 sign_name=Akhil
             }
 
