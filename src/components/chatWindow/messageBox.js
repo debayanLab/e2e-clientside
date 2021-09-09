@@ -12,10 +12,9 @@ import Modal from '../modal/modal.js'
 import { Abhinav_pub, Aryan_pub, Akhil_pub, Arup_pub,Debayan_pub,Dewang_pub,Himanshu_pub,Manish_pub,Adhiraj_pub  } from '../../all_private_keys';
 import { Button, IconButton } from '@material-ui/core';
 import PopUp from './PopUp';
+import { sign } from 'crypto';
 
-var sign_name;
 var NodeRSA = require ("node-rsa");
-var fs = require ("fs");
 
 var Abhinav = new NodeRSA();
 var Aryan = new NodeRSA();
@@ -94,39 +93,67 @@ export default class MessageBox extends Component {
     async sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
             // console.log (this.props.loggedInUserObj._id)
-            var sign_name='';
-            var o_name='';
-            var o_name = this.props.loggedInUserObj.name;
-            console.log("o_name", o_name)
+            console.log(this.props.loggedInUserObj.name)
             //setting up corresponding key:
             //should be done efficiently 
-            if  (o_name = "Abhinav"){
-                sign_name=Abhinav
+            var sign_name='';
+            switch (this.props.loggedInUserObj.name) {
+                case 'Abhinav':
+                  sign_name=Abhinav
+                  break;
+                case 'Aryan':
+                  sign_name=Aryan
+                  break;
+                case 'Adhiraj': 
+                  sign_name=Adhiraj
+                  break; 
+                case 'Arup':
+                  sign_name=Arup
+                  break;
+                case 'Debayan':
+                    sign_name=Debayan
+                    break;
+                case 'Devang':
+                    sign_name=Dewang
+                    break;
+                case 'Himanshu': 
+                    sign_name=Himanshu
+                    break; 
+                case 'Manish':
+                    sign_name=Manish
+                    break;
+                case 'Akhil':
+                    sign_name=Akhil
+                    break;
             }
-            if  (o_name = "Aryan"){
-                sign_name=Aryan
-            }
-            if  (o_name = "Adhiraj"){
-                sign_name=Adhiraj
-            }
-            if  (o_name = "Arup"){
-                sign_name=Arup
-            }
-            if  (o_name = "Debayan"){
-                sign_name=Debayan
-            }
-            if  (o_name = "Devang"){
-               sign_name=Dewang
-            }
-            if  (o_name = "Himanshu"){
-                sign_name=Himanshu
-            }
-            if  (o_name = "Manish"){
-                sign_name=Manish
-            }
-            if  (o_name = "Akhil"){
-                sign_name=Akhil
-            }
+            console.log("sign_name", sign_name)
+            // if  (o_name = "Abhinav"){
+            //     sign_name=Abhinav
+            // }
+            // if  (o_name = "Aryan"){
+            //     sign_name=Aryan
+            // }
+            // if  (o_name = "Adhiraj"){
+            //     sign_name=Adhiraj
+            // }
+            // if  (o_name = "Arup"){
+            //     sign_name=Arup
+            // }
+            // if  (o_name = "Debayan"){
+            //     sign_name=Debayan
+            // }
+            // if  (o_name = "Devang"){
+            //    sign_name=Dewang
+            // }
+            // if  (o_name = "Himanshu"){
+            //     sign_name=Himanshu
+            // }
+            // if  (o_name = "Manish"){
+            //     sign_name=Manish
+            // }
+            // if  (o_name = "Akhil"){
+            //     sign_name=Akhil
+            // }
 
             let msgObj = {
                 message: this.state.msgText,
