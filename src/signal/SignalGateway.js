@@ -1,5 +1,6 @@
 import util from './helpers'
 import SignalProtocolStore from "./InMemorySignalProtocolStore";
+import axios from 'axios'
 
 const libsignal = window.libsignal
 /**
@@ -7,6 +8,24 @@ const libsignal = window.libsignal
  * In a real application this component would connect to your signal 
  * server for storing and fetching user public keys over HTTP.
  */
+
+async function find_preKey(userID){
+    const data = async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let response = await axios({
+                    method: 'get',
+                    url: "https://kamakoti-server.herokuapp.com/api/prekeys"
+                })
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+    console.log(data)
+}
+
 export class SignalServerStore {
     /**
      * When a user logs on they should generate their keys and then register them with the server.
@@ -26,6 +45,7 @@ export class SignalServerStore {
         storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey)
         storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature)
         localStorage.setItem(userId, JSON.stringify(storageBundle))
+        // storeItem(userId, JSON.stringify(storageBundle))
     }
 
     updatePreKeyBundle(userId, preKeyBundle) {
@@ -38,6 +58,7 @@ export class SignalServerStore {
      * @param userId The ID of the user.
      */
     getPreKeyBundle(userId) {
+        find_preKey(userId)
         let preKeyBundle = JSON.parse(localStorage.getItem(userId))
         let preKey = preKeyBundle.preKeys.splice(-1)
         preKey[0].publicKey = util.base64ToArrayBuffer(preKey[0].publicKey)
@@ -119,7 +140,7 @@ class SignalProtocolManager {
             sessionCipher = new libsignal.SessionCipher(this.store, address);
             this.store.storeSessionCipher(remoteUserId, sessionCipher);
         }
-        
+
         var messageHasEmbeddedPreKeyBundle = cipherText.type === 3;
         // Decrypt a PreKeyWhisperMessage by first establishing a new session.
         // Returns a promise that resolves when the message is decrypted or
