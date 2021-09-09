@@ -94,35 +94,37 @@ export default class MessageBox extends Component {
     async sendMessageToServer() {
         if (this.state.msgText) { //to not send empty message
             // console.log (this.props.loggedInUserObj._id)
+            var sign_name='';
+            var o_name='';
             var o_name = this.props.loggedInUserObj.name;
+            console.log("o_name", o_name)
             //setting up corresponding key:
             //should be done efficiently 
-            var sign_name="";
             if  (o_name = "Abhinav"){
                 sign_name=Abhinav
             }
-            else if  (o_name = "Aryan"){
+            if  (o_name = "Aryan"){
                 sign_name=Aryan
             }
-            else if  (o_name = "Adhiraj"){
+            if  (o_name = "Adhiraj"){
                 sign_name=Adhiraj
             }
-            else if  (o_name = "Arup"){
+            if  (o_name = "Arup"){
                 sign_name=Arup
             }
-            else if  (o_name = "Debayan"){
+            if  (o_name = "Debayan"){
                 sign_name=Debayan
             }
-            else if  (o_name = "Devang"){
+            if  (o_name = "Devang"){
                sign_name=Dewang
             }
-            else if  (o_name = "Himanshu"){
+            if  (o_name = "Himanshu"){
                 sign_name=Himanshu
             }
-            else if  (o_name = "Manish"){
+            if  (o_name = "Manish"){
                 sign_name=Manish
             }
-            else if  (o_name = "Akhil"){
+            if  (o_name = "Akhil"){
                 sign_name=Akhil
             }
 
