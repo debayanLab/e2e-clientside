@@ -121,7 +121,7 @@ export default class MessageBox extends Component {
             else if  (o_name = "Manish"){
                 sign_name=Manish
             }
-            else  (o_name = "Akhil"){
+            else if  (o_name = "Akhil"){
                 sign_name=Akhil
             }
 
