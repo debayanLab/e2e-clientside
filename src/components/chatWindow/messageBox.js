@@ -126,35 +126,7 @@ export default class MessageBox extends Component {
                     sign_name=Akhil
                     break;
             }
-            console.log("sign_name", sign_name)
-            // if  (o_name = "Abhinav"){
-            //     sign_name=Abhinav
-            // }
-            // if  (o_name = "Aryan"){
-            //     sign_name=Aryan
-            // }
-            // if  (o_name = "Adhiraj"){
-            //     sign_name=Adhiraj
-            // }
-            // if  (o_name = "Arup"){
-            //     sign_name=Arup
-            // }
-            // if  (o_name = "Debayan"){
-            //     sign_name=Debayan
-            // }
-            // if  (o_name = "Devang"){
-            //    sign_name=Dewang
-            // }
-            // if  (o_name = "Himanshu"){
-            //     sign_name=Himanshu
-            // }
-            // if  (o_name = "Manish"){
-            //     sign_name=Manish
-            // }
-            // if  (o_name = "Akhil"){
-            //     sign_name=Akhil
-            // }
-
+            
             let msgObj = {
                 message: this.state.msgText,
                 date: moment().format('LT'),
@@ -166,7 +138,7 @@ export default class MessageBox extends Component {
                 senderid:this.props.loggedInUserObj._id,
                 recipient: this.props.selectedUser._id
             }
-            console.log("hello",msgObj)
+            
             this.props.setNewMsgObj(msgObj)
             // console.log("Send message to: ", this.props.selectedUser._id, " Name = ", this.findUserByID(this.props.selectedUser._id))
             this.messageInfo(msgObj, this.props.selectedUser)
@@ -276,7 +248,7 @@ export default class MessageBox extends Component {
                                     <details className={"detail_info"}>
                                                 <summary>{message.message}</summary>
                                                     <h3>Message Information</h3>
-                                                    <h1>Public Key Link: </h1> <h2>{message.link}</h2>
+                                                    <h1>Public Key Link: </h1> <h2><a href = {message.link}>{message.link}</a></h2>
                                                    
                                                 
                                                     <h1>RSA Signature of Message: </h1><h2>{message.signature}</h2>
