@@ -248,7 +248,7 @@ export default class MessageBox extends Component {
                                     <details className={"detail_info"}>
                                                 <summary>{message.message}</summary>
                                                     <h3>Message Information</h3>
-                                                    <h1>Public Key Link: </h1> <h2><a href = {message.link}>{message.link}</a></h2>
+                                                    <h1>Public Key Link: </h1> <h2><a href = {message.link} target="_blank">{message.link}</a></h2>
                                                    
                                                 
                                                     <h1>RSA Signature of Message: </h1><h2>{message.signature}</h2>

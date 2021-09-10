@@ -23,6 +23,7 @@
     font-weight: 700;
 }
 
+
 .message-box {
     flex: 0.7
 }
@@ -95,6 +96,12 @@
 .detail_info > h2 {
     font-size: 13px;
     padding-bottom: 3px;
+}
+
+.detail_info > h2> a:hover {
+    color: blue;
+    text-decoration: underline;
+
 }
 .forwarded-tag {
     white-space: nowrap;
