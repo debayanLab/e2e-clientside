@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     flex:0.3;
+    background-color: #f6f6f6;
 }
 
 .contactList_header {
@@ -9,6 +10,8 @@
     justify-content: space-between;
     padding:20px;
     border-right: 1px sold lightgray;
+    background-color: #079688;
+    border-right: 1px solid #056e64;
 }
 
 .contactList_header_right{
@@ -17,6 +20,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    color: #f6f6f6;
 }
 
 .contactList_header_right > .MuiSvgIcon-root {
@@ -28,9 +32,8 @@
 .search_bar{
     display: flex;
     align-items: center;
-    background-color: #f6f6f6;
-    height: 39px;
-    padding:10px
+    background-color: #f6f6f6;;
+    padding: 10px;
 }
 
 .search_bar_container{
@@ -46,4 +49,13 @@
     border: none;
     outline-width:0;
     margin-left:10px;
+}
+
+.user{
+    border: 3px 3px 3px 3px;
+}
+
+.last-message-time{
+    font-size: 0.7em;
+    white-space: nowrap;
 }

@@ -31,10 +31,10 @@ export default class ContactList extends Component {
         const lastMessageDetails = (
             <>
                 <div className="grid w-full">
-                    <div className="contact-menu font-bold px-2">{user.name}</div>
+                    <div className="contact-menu  px-2">{user.name}</div>
                     {lastMessage ? <div className="last-message px-2 text-sm">{lastMessage.message}</div> : null}
                 </div>
-                {lastMessage ? <div className="last-message-time w-1/4 text-right">{lastMessage.date}</div> : null}
+                {lastMessage ? <div className="last-message-time">{lastMessage.date}</div> : null}
             </>
         )
         return lastMessageDetails
