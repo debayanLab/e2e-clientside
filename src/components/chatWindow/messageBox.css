@@ -4,6 +4,10 @@
     flex: 0.7;
 }
 
+.user-bar{
+    background-color: #079688;
+}
+
 .chat_header{
     position: absolute;
     display: flex;
@@ -21,6 +25,14 @@
 
 .message-box{
     flex: 0.7
+}
+
+.input-box{
+    background-color: #f0f0f0;
+}
+
+.msg-input{
+    border-radius: 20px 20px 20px 20px;
 }
 
 .message-area{
@@ -50,4 +62,14 @@
     max-height: 55vh;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.forwarded-tag{
+    white-space: nowrap;
+    color: grey;
+    padding-right: 1em;
+}
+
+.profile-picture{
+    border-radius: 50%;
 }

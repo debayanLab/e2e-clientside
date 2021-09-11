@@ -61,13 +61,11 @@
 .contact-box{
   background-color: white;
 }
-.contact-name{
-  color: black;
-}
+
 .user-bar{
-  background-color: #075E54;
+  background-color: #079688;
 }
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
 .contact-name{
   color: white;
   font-family: 'Open Sans', sans-serif!important;
@@ -92,3 +90,8 @@
     width: 28%;
     display: none;
 } */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+.last-message{
+  font-family: 'Open Sans', sans-serif;
+}
