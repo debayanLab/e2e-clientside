@@ -36,7 +36,7 @@ export default class ChatWindow extends Component {
         this.setState({ chats: { ...lsChats } })
 
         // Web Socket Connection
-        let ws = new WebSocket(`ws://kamakoti-server.herokuapp.com/chat/${this.props.loggedInUserObj._id}`)
+        let ws = new WebSocket(`wss://kamakoti-server.herokuapp.com/chat/${this.props.loggedInUserObj._id}`)
         console.log("New Web Socket Connection: ", ws);
 
         ws.onopen = () => {
@@ -111,7 +111,7 @@ export default class ChatWindow extends Component {
             try {
                 let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(newMsgObj.recipient, newMsgObj.message);
                 msgToSend.message = encryptedMessage
-                console.log('Received Message object: ', msgToSend)
+                // console.log('Received Message object: ', msgToSend)
                 this.state.ws.send(JSON.stringify(msgToSend))
                 this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
             } catch (error) {
@@ -126,7 +126,7 @@ export default class ChatWindow extends Component {
             try {
                 let encryptedMessage = await this.props.signalProtocolManagerUser.encryptMessageAsync(this.state.messageToUser._id, newMsgObj.message);
                 msgToSend.message = encryptedMessage
-                console.log('Received Message object: ', msgToSend)
+                // console.log('Received Message object: ', msgToSend)
                 this.state.ws.send(JSON.stringify(msgToSend))
                 this.setState({ lastSentMessage: newMsgObj.message }) // Storing last-sent message for Verification with Received Message
             } catch (error) {
